@@ -6,8 +6,9 @@
 #     ./stats.rb > stats.csv
 #
 
+# https://adventofcode.com/2024/stats
 overall_stats = '''
- 1  212594  67751  *****************************************
+ 1  98971  6280  *****************************************
 '''.lines
    .map(&:chomp)
    .reject {|line| line.empty?}
@@ -25,8 +26,9 @@ overall_stats = '''
       memo
    end
 
+# https://adventofcode.com/2024/leaderboard/self
 personal_times = '''
-  1       >24h  149845      0       >24h  108713      0
+  1   21:55:06  104725      0   22:04:35  98763      0
 '''.lines
    .map(&:chomp)
    .reject {|line| line.empty?}
