@@ -8,7 +8,8 @@
 
 # https://adventofcode.com/2024/stats
 overall_stats = '''
- 1  98971  6280  *****************************************
+ 2   49430  20770  **********************
+ 1  122973   8929  *****************************************
 '''.lines
    .map(&:chomp)
    .reject {|line| line.empty?}
@@ -28,6 +29,7 @@ overall_stats = '''
 
 # https://adventofcode.com/2024/leaderboard/self
 personal_times = '''
+  2   08:58:05   61493      0   09:28:22  44660      0
   1   21:55:06  104725      0   22:04:35  98763      0
 '''.lines
    .map(&:chomp)
@@ -38,19 +40,19 @@ personal_times = '''
    .map do |row|
       day = row[0]
       my_first_puzzle_rank = row[1]
-      total_first_puzzle = overall_stats[row[0]][:finished_first_puzzle]
+      total_first_puzzle = overall_stats[day][:finished_first_puzzle]
       my_second_puzzle_rank = row[2]
-      total_second_puzzle = overall_stats[row[0]][:finished_second_puzzle]
+      total_second_puzzle = overall_stats[day][:finished_second_puzzle]
       [
         day,
         '',
         my_first_puzzle_rank,
         total_first_puzzle,
-        (my_first_puzzle_rank.to_f / total_first_puzzle).round(3),
+        ((1.0 - (my_first_puzzle_rank.to_f / total_first_puzzle)) * 100).to_i,
         '',
         my_second_puzzle_rank,
         total_second_puzzle,
-        (my_second_puzzle_rank.to_f / total_second_puzzle).round(3),
+        ((1.0 - (my_second_puzzle_rank.to_f / total_second_puzzle)) * 100).to_i,
       ]
    end
 
