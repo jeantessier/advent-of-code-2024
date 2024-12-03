@@ -7,7 +7,7 @@ lines = File.readlines("input.txt") # Answer: 601 (in 70 ms)
 reports = lines.map { |line| line.split(/\s+/).map(&:to_i) }
 
 def safe?(report)
-  adjacent_diffs = report[..-2].zip(report[1..]).map { |level_a, level_b| level_a - level_b }
+  adjacent_diffs = report.each_cons(2).map { |level_a, level_b| level_a - level_b }
 
   all_decreasing = adjacent_diffs.all? { |diff| diff <= 0 }
   all_increasing = adjacent_diffs.all? { |diff| diff >= 0 }
