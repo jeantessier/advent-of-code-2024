@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # lines = readlines
-# lines = File.readlines("sample.txt") # Answer: 161 (in 51 ms)
+# lines = File.readlines("sample1.txt") # Answer: 161 (in 51 ms)
 lines = File.readlines("input.txt") # Answer: 160672468 (in 59 ms)
 
 REGEX = /mul\((\d{1,3}),(\d{1,3})\)/
@@ -12,6 +12,6 @@ multiplications = lines.map do |line|
   end
 end
 
-total_safe = multiplications.flatten.sum
+total = multiplications.flatten.sum
 
-puts "total safe: #{total_safe}"
+puts "total: #{total}"
