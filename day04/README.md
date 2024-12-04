@@ -10,3 +10,10 @@ This way, there was no over counting.
 
 The reading methods each only returns 4 characters.  If it is too close to the
 edge to get 4 characters, they return an empty string.
+
+## Puzzle 2
+
+Similar approach: look for `A` and check diagonals.  Since the `A` cannot be on
+the edge, this simplifies things quite a bit.  Check for `A` inside the edge,
+and the diagonals _de facto_ exist.  All that's left is checking they both spell
+out `MAS` forward or backward.
