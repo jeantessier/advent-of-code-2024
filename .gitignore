@@ -2,6 +2,10 @@ stats.csv
 *~
 *.out
 
+# Puzzle data, as per https://adventofcode.com/2024/about#faq_copying
+**/input.txt
+**/sample*.txt
+
 # Bundle working folder
 .bundle
 
