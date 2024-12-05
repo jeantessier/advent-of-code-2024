@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# Login to https://adventofcode.com/2024/day/1/input to download 'input.txt'.
+
 # lines = readlines
 # lines = File.readlines("sample.txt") # Answer: 11 (in 58 ms)
 lines = File.readlines("input.txt") # Answer: 2164381 (in 47 ms)
