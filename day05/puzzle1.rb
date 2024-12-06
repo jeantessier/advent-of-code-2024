@@ -7,12 +7,12 @@
 lines = File.readlines('input.txt') # Answer: 5639 (in 86 ms)
 
 RULE_REGEX = /(\d+)\|(\d+)/
-UPDATE_REGEX = /(\d+,){1,}\d+/
+UPDATE_REGEX = /(\d+,)+\d+/
 
 rules = lines
           .map { |line| RULE_REGEX.match(line) }
           .find_all { |match| match }
-          .map { |match| [ match[1].to_i, match[2].to_i ] }
+          .map { |match| [match[1].to_i, match[2].to_i] }
 
 updates = lines
             .map { |line| UPDATE_REGEX.match(line) }
