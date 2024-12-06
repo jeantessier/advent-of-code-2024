@@ -57,8 +57,6 @@ while x_range.include?(x) && y_range.include?(y)
   next_y = y + direction[1]
   if x_range.include?(next_x) && y_range.include?(next_y) && map[next_x][next_y] == '#'
     direction = next_direction(direction)
-    # x += direction[0]
-    # y += direction[1]
   else
     x = next_x
     y = next_y
