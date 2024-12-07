@@ -10,11 +10,13 @@ was quick to fix.
 ## Puzzle 02
 
 I just added one more possible operator and it worked.  It took much longer,
-though.  With `n` operands, the solution for Puzzle 1 evaluated `2**n`
-combinations.  With the extra operator, Puzzle 2 evaluated `3**n` combinations.
+though.  With `n` operands, the solution for Puzzle 1 evaluated
+**2<sup>n</sup>** combinations.  With the extra operator, Puzzle 2 evaluated
+**3<sup>n</sup>** combinations.
 
-The most operands in the input equations is 12.  2^12 is **4096** versus 3^12
-which is **531441**.  That's two orders of magnitude higher.
+The most operands in the input equations is 12.  2<sup>12</sup> is **4096**
+versus 3<sup>12</sup> which is **531441**.  That's two orders of magnitude
+higher.
 
 One obvious optimization would be to stop the recursion when we find the first
 correct combination of operators.  In Ruby, a call to `return` from inside a
