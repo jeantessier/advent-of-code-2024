@@ -4,7 +4,7 @@
 
 # lines = readlines
 # lines = File.readlines('sample.txt') # Answer: 34 (in 52 ms)
-lines = File.readlines('input.txt') # Answer: 898 (in 69 ms)
+lines = File.readlines('input.txt') # Answer: 898 (in 66 ms)
 
 Coord = Struct.new(:x, :y) do
   def to_s
@@ -102,7 +102,6 @@ total = frequencies.map do |frequency, antennas|
 end
 .flatten
 .uniq
-.filter { |antinode| x_range.include?(antinode.x) && y_range.include?(antinode.y) }
 .size
 
 puts
