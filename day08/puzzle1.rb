@@ -54,40 +54,28 @@ frequencies.keys.sort.each do |frequency|
 end
 puts
 
-# def combinations(antennas)
-#   return [] if antennas.size < 2
-#   return antennas if antennas.size == 2
-#
-#   combinations(antennas[1..]).map do |combination|
-#     combination.unshift(antennas.first)
-#   end
-# end
-
 total = frequencies.map do |frequency, antennas|
   puts "#{frequency}: #{antennas.join(', ')}"
   antennas
     .product(antennas)
     .reject { |pair| pair.first == pair.last }
     .map do |pair|
-      puts "  pair #{pair.join(', ')}"
       bounding_box = [
         Coord.new([pair.first.x, pair.last.x].min, [pair.first.y, pair.last.y].min),
         Coord.new([pair.first.x, pair.last.x].max, [pair.first.y, pair.last.y].max),
       ]
       dx = bounding_box.last.x - bounding_box.first.x
       dy = bounding_box.last.y - bounding_box.first.y
-      possible_antinodes = [
-        Coord.new(bounding_box.first.x - dx, bounding_box.first.y - dy), # NW corner
-        Coord.new(bounding_box.first.x - dx, bounding_box.last.y + dy), # NE corner
-        Coord.new(bounding_box.last.x + dx, bounding_box.last.y + dy), # SE corner
-        Coord.new(bounding_box.last.x + dx, bounding_box.first.y - dy), # SW corner
-      ]
       if pair.include?(bounding_box.first)
-        puts "    antinodes: #{possible_antinodes[(0..).step(2)].join(', ')}"
-        possible_antinodes[(0..).step(2)]
+        [
+          Coord.new(bounding_box.first.x - dx, bounding_box.first.y - dy), # NW corner
+          Coord.new(bounding_box.last.x + dx, bounding_box.last.y + dy), # SE corner
+        ]
       else
-        puts "    antinodes: #{possible_antinodes[(1..).step(2)].join(', ')}"
-        possible_antinodes[(1..).step(2)]
+        [
+          Coord.new(bounding_box.first.x - dx, bounding_box.last.y + dy), # NE corner
+          Coord.new(bounding_box.last.x + dx, bounding_box.first.y - dy), # SW corner
+        ]
       end
     end
 end
