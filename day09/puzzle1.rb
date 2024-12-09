@@ -21,7 +21,7 @@ end
 
 puts 'Blocks'
 puts '------'
-puts "| #{blocks.join(" | ")} |"
+puts "| #{blocks.join(' | ')} |"
 puts
 
 first_free_index = blocks.find_index(nil)
@@ -41,7 +41,7 @@ while first_free_index < last_file_index
   last_file_index -= 1
   last_file_index -= 1 while blocks[last_file_index].nil?
 
-  # puts "| #{blocks.join(" | ")} |"
+  # puts "| #{blocks.join(' | ')} |"
 end
 
 checksum = 0
