@@ -9,8 +9,9 @@ worth it, yet.
 
 ## Puzzle 02
 
-First solution took **5m14s**.  It moved backwards from the last file and looked
-for a free space large enough to accommodate it.  **O(n<sup>2</sup>)** style.
+First solution ([puzzle2_slow.rb](puzzle2_slow.rb)) took **5m14s**.  It moved
+backwards from the last file and looked for a free space large enough to
+accommodate it.  **O(n<sup>2</sup>)** style.
 
 On top of that, a file might get visited more than once.  This creates extra
 work, but does not change the result.  If the file didn't fit anywhere left of
@@ -22,7 +23,8 @@ is still O(n<sup>2</sup>) but runs in about **1m40s**.  But my two attempts to
 make it happen failed to give the correct checksum with the input data.  The
 sample was fine, but something in the real inputs is throwing me off.
 
-A better solution would be to track sequences of identical blocks.  This would
-make finding free space for a file much faster, but would require splitting a
-sequence of free space into a sequence for a file and a possibly empty sequence
-of free space whenever we move a file.
+A better solution ([puzzle2_fast.rb](puzzle2_fast.rb)) is to track sequences of
+identical blocks.  This makes finding free space for a file much faster, but
+requires splitting a sequence of free space into a sequence for a file and a
+possibly empty sequence of free space whenever we move a file.  This has a
+complexity closer to **O(n)** and runs in **6s**.
