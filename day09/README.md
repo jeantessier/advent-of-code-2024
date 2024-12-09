@@ -17,4 +17,12 @@ work, but does not change the result.  If the file didn't fit anywhere left of
 here before, it still won't fit anywhere left of here now.
 
 One quick optimization is to stop looking when the file starts before the first
-free block, and to stop looking for free space past the file's start.
+free block, and to stop looking for free space past where the file starts.  It
+is still O(n<sup>2</sup>) but runs in about **1m:40s**.  But my two attempts to
+make it happen failed to give the correct checksum with the input data.  The
+sample was fine, but something in the real inputs is throwing me off.
+
+A better solution would be to track sequences of identical blocks.  This would
+make finding free space for a file much faster, but would require splitting a
+sequence of free space into a sequence for a file and a possibly empty sequence
+of free space whenever we move a file.
