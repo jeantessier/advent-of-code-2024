@@ -1,4 +1,4 @@
-# Day 03
+# [Day 03](https://adventofcode.com/2024/day/3)
 
 Solved using the magic of regular expressions.  Puzzle 1 was really simple.  I
 used Ruby's `String#scan` to run the regex over the entire input and multiply

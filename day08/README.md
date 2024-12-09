@@ -1,4 +1,4 @@
-# Day 08
+# [Day 08](https://adventofcode.com/2024/day/8)
 
 ## Puzzle 01
 
@@ -14,6 +14,6 @@ twice) and remove antinodes that were outside the map.
 
 ## Puzzle 02
 
-I used the unbounded generator `(0..).lazy` to walk the diagonal of each
-bounding box until I walked off the edge of the map.  Remove duplicates and I
-was done.
+I used the unbounded generator `(0..).lazy` with `#take_while` to walk the
+diagonal of each bounding box until I walked off the edge of the map.  I removed
+duplicates and I was done.

@@ -1,4 +1,4 @@
-# Day 02
+# [Day 02](https://adventofcode.com/2024/day/2)
 
 Another one I was able to solve using brute force.  Ruby arrays have a number
 of methods to help here: `#zip`, `#map`, `#all?`.

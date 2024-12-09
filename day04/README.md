@@ -1,4 +1,4 @@
-# Day 04
+# [Day 04](https://adventofcode.com/2024/day/4)
 
 ## Puzzle 1
 
