@@ -4,13 +4,13 @@
 
 # lines = readlines
 # lines = File.readlines('sample.txt') # Answer: 1928 (in 54 ms)
-lines = File.readlines('input.txt') # Answer: 6344673854800 (in 804 ms)
+lines = File.readlines('input.txt') # Answer: 6344673854800 (in 772 ms)
 
 disk_map = lines.first.chomp.split(//).map(&:to_i)
 
 puts 'Disk Map'
 puts '--------'
-puts disk_map
+puts disk_map.inspect
 puts
 
 blocks = []
