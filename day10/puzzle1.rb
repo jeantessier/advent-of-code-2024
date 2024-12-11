@@ -71,7 +71,11 @@ scores = trailheads.map do |trailhead|
   hike(map, trailhead).size
 end
 
+puts 'Scores'
+puts '------'
+puts scores.inspect
+puts
+
 total = scores.sum
 
-puts
 puts "Total: #{total}"
