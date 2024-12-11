@@ -56,9 +56,9 @@ def hike(map, coord)
 
   [
     coord.up,
-    coord.left,
-    coord.down,
     coord.right,
+    coord.down,
+    coord.left,
   ]
     .select(&:valid?)
     .select { |c| map[c.x][c.y] == map[coord.x][coord.y] + 1 }
