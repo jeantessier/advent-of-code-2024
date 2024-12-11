@@ -3,8 +3,8 @@
 # Login to https://adventofcode.com/2024/day/11/input to download 'input.txt'.
 
 # lines = readlines
-lines = File.readlines('sample.txt') # Answer: ?? (in ?? ms)
-# lines = File.readlines('input.txt') # Answer: ?? (in ?? ms)
+# lines = File.readlines('sample.txt') # Answer: 65601038650482 (in 63 ms)
+lines = File.readlines('input.txt') # Answer: 261936432123724 (in 381 ms)
 
 class Stone
   attr_reader :number
@@ -15,51 +15,50 @@ class Stone
 
   def blink
     case
-    when number.zero? then [Stone.new(1)]
+    when number == '0' then [Stone.new('1')]
     when even_digits? then [Stone.new(left_part), Stone.new(right_part)]
-    else [Stone.new(number * 2024)]
+    else [Stone.new((number.to_i * 2024).to_s)]
     end
   end
 
-  def string_number
-    @string_number ||= number.to_s
-  end
-
   def even_digits?
-    string_number.length.even?
+    number.length.even?
   end
 
   def left_part
-    string_number[0...(string_number.length / 2)].to_i
+    number[0...(number.length / 2)].sub(/^0+(\d+)/, '\1')
   end
 
   def right_part
-    string_number[(string_number.length / 2)..].to_i
+    number[(number.length / 2)..].sub(/^0+(\d+)/, '\1')
   end
 
   def to_s
-    string_number
+    number
   end
 end
 
-stones = lines.first.split.map(&:to_i).map { |number| Stone.new(number) }
+stones = lines.first.split.map { |number| Stone.new(number) }
 
 puts 'Stones'
 puts '------'
 puts stones
 puts
 
-75.times do |n|
-  puts "Blink! (#{n + 1})"
-  # puts
+BLINK_CACHE = Hash.new { |hash, key| hash[key] = {} }
+def blinks(stone, n)
+  return 1 if n.zero?
+  return BLINK_CACHE[stone.number][n] if BLINK_CACHE[stone.number][n]
 
-  stones = stones.map(&:blink).flatten
+  puts "blinks(#{stone.number}, #{n})"
 
-  # puts 'Stones'
-  # puts '------'
-  # puts stones
-  # puts
+  result = stone.blink.map { |s| blinks(s, n - 1) }.sum
+  BLINK_CACHE[stone.number][n] = result
+
+  result
 end
 
+total = stones.map { |stone| blinks(stone, 75) }.sum
+
 puts
-puts "Number of stones: #{stones.size}"
+puts "Total: #{total}"
