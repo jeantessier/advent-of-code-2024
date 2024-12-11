@@ -11,5 +11,12 @@ The sample data took **136ms** and the real input took **416ms** to process only
 
 ## Puzzle 02
 
-The approach from Puzzle 1 stops responding around blink 35.  I need a new
+The approach from Puzzle 1 stopped responding around blink 35.  I needed a new
 approach.
+
+Divide and Conquer.  Blink once and add up the counts from blinking **n-1**
+times each resulting stone.  Caching helps, as certain numbers tends to come
+back again and again.
+
+With this new approach, the sample data took **63ms** and the real input only
+took **381ms**.  That's for 75 blinks!!
