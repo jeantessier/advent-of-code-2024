@@ -10,3 +10,11 @@ from this trailhead."
 
 By removing the call to `#uniq`, the `#hike` method returned one coordinate for
 each path.  Counting the paths gave me the rating I was looking for.
+
+## JavaScript
+
+I tried to port this solution to JavaScript.  For fun.  The hard part was
+replicating Ruby's `Array#uniq`.  I used simple tuples for coordinates, and a
+JavaScript `Set` didn't de-dupe them because it used object identity to find
+duplicates.  In the end, I converted coordinates to JSON strings before
+de-duping, and that did the trick.
