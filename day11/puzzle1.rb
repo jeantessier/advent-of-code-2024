@@ -15,7 +15,7 @@ class Stone
 
   def blink
     case
-    when number == 0 then [Stone.new(1)]
+    when number.zero? then [Stone.new(1)]
     when even_digits? then [Stone.new(left_part), Stone.new(right_part)]
     else [Stone.new(number * 2024)]
     end
@@ -36,7 +36,7 @@ class Stone
   def right_part
     string_number[(string_number.length / 2)..].to_i
   end
-  
+
   def to_s
     string_number
   end
