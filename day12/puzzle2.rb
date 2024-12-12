@@ -6,10 +6,12 @@ require './region'
 # Login to https://adventofcode.com/2024/day/12/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample1.txt') # Answer: 140 (in 61 ms)
-# lines = File.readlines('sample2.txt') # Answer: 772 (in 61 ms)
-# lines = File.readlines('sample3.txt') # Answer: 1930 (in 47 ms)
-lines = File.readlines('input.txt') # Answer: 1363484 (in 4,231 ms)
+# lines = File.readlines('sample1.txt') # Answer: 80 (in 57 ms)
+# lines = File.readlines('sample2.txt') # Answer: 436 (in 60 ms)
+# lines = File.readlines('sample3.txt') # Answer: 1206 (in 65 ms)
+# lines = File.readlines('sample4.txt') # Answer: 236 (in 63 ms)
+# lines = File.readlines('sample5.txt') # Answer: 368 (in 64 ms)
+lines = File.readlines('input.txt') # Answer: 838988 (in 4,502 ms)
 
 # Renders the map (on *STDOUT* by default)
 def print_map(map, out = $stdout)
@@ -90,7 +92,7 @@ end.flatten
 
 puts 'Regions'
 puts '-------'
-regions.each { |region| puts "#{region} has an area of #{region.area}, a perimeter of #{region.perimeter}, and costs #{region.price}" }
+regions.each { |region| puts "#{region} has an area of #{region.area}, #{region.number_of_sides} sides, and costs #{region.discounted_price}" }
 puts
 
-puts "Total: #{regions.map(&:price).sum}"
+puts "Total: #{regions.map(&:discounted_price).sum}"
