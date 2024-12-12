@@ -44,7 +44,7 @@ Region = Struct.new(:type_of_plant) do
     # segments.each { |segment| puts "[#{segment.map(&:to_s).join(', ')}]" }
     # puts
 
-    while true do
+    loop do
       (0...segments.size).each do |i|
         ((i + 1)...segments.size).each do |j|
           if segments[i].any? { |pi| segments[j].any? { |pj| ((pi.x - pj.x).abs + (pi.y - pj.y).abs) == 1 } }
@@ -54,9 +54,9 @@ Region = Struct.new(:type_of_plant) do
         end
       end
 
-      break if previous_number_of_segments == segments.reject { |segment| segment.empty? }.size
+      break if previous_number_of_segments == segments.reject(&:empty?).size
 
-      previous_number_of_segments = segments.reject { |segment| segment.empty? }.size
+      previous_number_of_segments = segments.reject(&:empty?).size
     end
 
     # puts 'Segments'
@@ -66,7 +66,6 @@ Region = Struct.new(:type_of_plant) do
 
     # puts "Number of segments: #{segments.reject { |segment| segment.empty? }.size}"
 
-    segments.reject { |segment| segment.empty? }.size
+    segments.reject(&:empty?).size
   end
-
 end
