@@ -17,6 +17,14 @@ Region = Struct.new(:type_of_plant) do
                          end
   end
 
+  def discounted_price = @discounted_price ||= area * number_of_sides
+
+  def to_s
+    "#{type_of_plant} [#{plots.map { |p| "(#{p.x}, #{p.y})" }.join(', ')}]"
+  end
+
+  private
+
   def compute_number_of_sides
     [
       plots.select { |plot| plot.up&.type_of_plant != type_of_plant },
@@ -61,9 +69,4 @@ Region = Struct.new(:type_of_plant) do
     segments.reject { |segment| segment.empty? }.size
   end
 
-  def discounted_price = @discounted_price ||= area * number_of_sides
-
-  def to_s
-    "#{type_of_plant} [#{plots.map { |p| "(#{p.x}, #{p.y})" }.join(', ')}]"
-  end
 end
