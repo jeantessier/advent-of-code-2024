@@ -7,4 +7,5 @@ valid if the solutions are integers.
 
 ## Puzzle 02
 
-
+Added an optional correction factor to `Machine#initialize` and ran everything
+else the same.

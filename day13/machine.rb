@@ -5,7 +5,7 @@ class Machine
   BUTTON_B_REGEX = /Button B: X\+(?<bx>\d+), Y\+(?<by>\d+)/
   PRIZE_REGEX = /Prize: X=(?<px>\d+), Y=(?<py>\d+)/
 
-  def initialize(machine_configuration)
+  def initialize(machine_configuration, prize_correction = 0)
     machine_configuration.map { |line| BUTTON_A_REGEX.match(line) }.compact.each do |match|
       @ax = match[:ax].to_f
       @ay = match[:ay].to_f
@@ -17,8 +17,8 @@ class Machine
     end
 
     machine_configuration.map { |line| PRIZE_REGEX.match(line) }.compact.each do |match|
-      @px = match[:px].to_f
-      @py = match[:py].to_f
+      @px = match[:px].to_f + prize_correction
+      @py = match[:py].to_f + prize_correction
     end
   end
 
