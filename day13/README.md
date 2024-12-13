@@ -3,7 +3,8 @@
 ## Puzzle 01
 
 Two equations, two variables, we can solve this using algebra.  The machine is
-valid if the solutions are integers.
+valid if the solutions are integers.  It did take me three pages of scribblings
+to resolve the equations.
 
 ## Puzzle 02
 

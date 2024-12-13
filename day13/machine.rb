@@ -22,12 +22,12 @@ class Machine
     end
   end
 
-  def a = ((bx * py) - (by * px)) / ((bx * ay) - (by * ax))
-  def b = ((ax * py) - (ay * px)) / ((ax * by) - (ay * bx))
+  def a = @a ||= ((bx * py) - (by * px)) / ((bx * ay) - (by * ax))
+  def b = @b ||= ((ax * py) - (ay * px)) / ((ax * by) - (ay * bx))
 
   def valid?
-    a == a.floor && b == b.floor
+    @valid ||= a == a.floor && b == b.floor
   end
 
-  def minimum_tokens = (3 * a.to_i) + b.to_i
+  def minimum_tokens = @minimum_tokens ||= (3 * a.to_i) + b.to_i
 end
