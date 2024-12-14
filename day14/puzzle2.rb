@@ -50,7 +50,9 @@ print_map(robots)
 puts robots
 puts
 
-# Looks for a row of 13+ robots with 13+ of them side-by-side.
+# Looks for a row of 13+ robots with 13+ of them side-by-side,
+# as potentially part of a picture.  Using 13 and 10 yielded
+# 26 candidates.  13 and 13 yields 4 candidates.
 def analyze(robots)
   robots
     .group_by { |robot| robot.y }
@@ -65,6 +67,8 @@ def analyze(robots)
     end
 end
 
+# By submitting various numbers to the AoC website, I was
+# able to narrow it down to between 5,000 and 10,000.
 candidates = (5_000..10_000).select do |seconds|
   analyze(robots.map { |robot| robot.move(seconds) })
 end
