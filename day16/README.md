@@ -44,3 +44,17 @@ I had paths from Puzzle 1.  I just need to select all the ones with the lowest
 score, compute all the vertices for each, and de-dupe them using Ruby's
 `#flatten` and `#uniq` methods.  It worked fine for the samples, but my initial
 implementation turned out too low when I used it against the real input.
+
+I suspected that I was probably pruning too aggressively.  Between pruning
+from `S`, pruning from `E`, and taking the intersection, I was leaving out some
+alternate path that still had the lowest score.
+
+The Advent of Code site told me **466* was too low, and I tried **500** on a
+lark to find that was too high.
+
+I printed my result with **466** and found a small alternate path near `S`
+with **13** extra tiles.  Adding them gave me the correct answer.
+
+I tried various ways to be more lenient iin my pruning, but each time it sent
+the program into some infinite loop somewhere in the center.  I threw in the
+towel after another 5 hours of fruitless trial and error.

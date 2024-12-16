@@ -1,5 +1,11 @@
 #!/usr/bin/env ruby
 
+START = Time.now
+
+def timestamp(msg = '')
+  puts sprintf("T+ %0.3f ms: %s", (Time.now - START) * 1_000, msg)
+end
+
 # Login to https://adventofcode.com/2024/day/16/input to download 'input.txt'.
 
 # lines = readlines
@@ -16,6 +22,7 @@ end
 
 map = lines.map(&:chomp).map { |line| line.split('') }
 
+timestamp
 puts 'Map'
 puts '---'
 print_map(map)
@@ -79,6 +86,7 @@ end.flatten.compact.first
 
 vertices = [start_vertex] + middle_vertices + [end_vertex]
 
+timestamp
 puts "Vertices (#{vertices.size})"
 puts '--------'
 puts
@@ -105,6 +113,7 @@ end.flatten
 
 edges = horizontal_edges + vertical_edges
 
+timestamp
 puts "Edges (#{edges.size})"
 puts '-----'
 puts
@@ -115,11 +124,13 @@ vertex_edges = edges.reduce(Hash.new { |h, k| h[k] = [] }) do |hash, edge|
   hash
 end
 
+timestamp
 puts 'Starting Edges'
 puts '--------------'
 puts vertex_edges[start_vertex]
 puts
 
+timestamp
 puts 'Ending Edges'
 puts '------------'
 puts vertex_edges[end_vertex]
@@ -179,6 +190,7 @@ end
 
 searching_forward = select_edges(start_vertex, edges, end_vertex)
 
+timestamp
 puts 'Searching Forward'
 puts '-----------------'
 puts "vertices: #{searching_forward[:vertices].size} / #{vertices.size}"
@@ -187,6 +199,7 @@ puts
 
 pruned_forward = prune(searching_forward[:vertices], searching_forward[:edges], [start_vertex, end_vertex])
 
+timestamp
 puts 'Pruned Forward'
 puts '--------------'
 puts "vertices: #{pruned_forward[:vertices].size} / #{searching_forward[:vertices].size} / #{vertices.size}"
@@ -195,6 +208,7 @@ puts
 
 searching_backward = select_edges(end_vertex, edges, start_vertex)
 
+timestamp
 puts 'Searching Backward'
 puts '------------------'
 puts "vertices: #{searching_backward[:vertices].size} / #{vertices.size}"
@@ -203,10 +217,23 @@ puts
 
 pruned_backward = prune(searching_backward[:vertices], searching_backward[:edges], [start_vertex, end_vertex])
 
+timestamp
 puts 'Pruned Backward'
 puts '---------------'
 puts "vertices: #{pruned_backward[:vertices].size} / #{searching_backward[:vertices].size} / #{vertices.size}"
 puts "edges: #{pruned_backward[:edges].size} / #{searching_backward[:edges].size} / #{edges.size}"
+puts
+
+union = {
+  vertices: (pruned_forward[:vertices] + pruned_backward[:vertices]).uniq,
+  edges: (pruned_forward[:edges] + pruned_backward[:edges]).uniq,
+}
+
+timestamp
+puts 'Union'
+puts '-----'
+puts "vertices: #{union[:vertices].size}"
+puts "edges: #{union[:edges].size}"
 puts
 
 intersection = {
@@ -214,14 +241,25 @@ intersection = {
   edges: pruned_forward[:edges].intersection(pruned_backward[:edges]),
 }
 
+timestamp
 puts 'Intersection'
 puts '------------'
 puts "vertices: #{intersection[:vertices].size}"
 puts "edges: #{intersection[:edges].size}"
 puts
 
+def score(path)
+  ((path.size - 1) * 1000) + path.each_cons(2).map { |v1, v2| (v1.x - v2.x).abs + (v1.y - v2.y).abs }.sum
+end
+
 def find_paths(path_prefix, edges, end_vertex)
-  return [path_prefix] if path_prefix.last == end_vertex
+
+  if path_prefix.include?(end_vertex)
+    timestamp "path_prefix.size = #{path_prefix.size}, edges.size = #{edges.size}, *** score = #{score(path_prefix)} ***"
+    return [path_prefix]
+  else
+    timestamp "path_prefix.size = #{path_prefix.size}, edges.size = #{edges.size}"
+  end
 
   edges
     .select { |edge| edge.include?(path_prefix.last) }
@@ -230,19 +268,63 @@ def find_paths(path_prefix, edges, end_vertex)
     .flatten(1)
 end
 
-possible_paths = find_paths([start_vertex], intersection[:edges], end_vertex)
+# possible_paths = find_paths([start_vertex], union[:edges], end_vertex)
+# possible_paths = find_paths([start_vertex], intersection[:edges], end_vertex)
+# possible_paths = find_paths([start_vertex], pruned_forward[:edges], end_vertex)
 
+def find_paths2(path_prefix, edges, path_suffix)
+  if path_prefix.last == path_suffix.first
+    result = path_prefix + path_suffix[1..]
+    timestamp "path_prefix.size = #{path_prefix.size}, path_suffix.size = #{path_suffix.size}, edges.size = #{edges.size}, *** score = #{score(result)} *** --NODE--"
+    return [result]
+  else
+    timestamp "path_prefix.size = #{path_prefix.size}, path_suffix.size = #{path_suffix.size}, edges.size = #{edges.size}"
+  end
+
+  # Grow path_prefix
+  edges_that_grow_prefix = edges
+                             .select { |edge| edge.include?(path_prefix.last) }
+                             .reject { |edge| path_prefix.include?(edge.v1) && path_prefix.include?(edge.v2) }
+
+  # Grow path_suffix
+  edges_that_grow_suffix = edges
+                             .select { |edge| edge.include?(path_suffix.first) }
+                             .reject { |edge| path_suffix.include?(edge.v1) && path_suffix.include?(edge.v2) }
+
+  # One new edge connects the last vertex of the prefix to the first vertex of the suffix
+  if edges_that_grow_prefix.any? { |edge| edge.v1 == path_suffix.first || edge.v2 == path_suffix.first }
+    result = path_prefix + path_suffix
+    timestamp "path_prefix.size = #{path_prefix.size}, path_suffix.size = #{path_suffix.size}, edges.size = #{edges.size}, *** score = #{score(result)} *** --EDGE--"
+    return [result]
+  end
+
+  # Explore all combinations of growing prefix and suffix
+  edges_that_grow_prefix
+    .product(edges_that_grow_suffix)
+    .reject { |prefix_edge, suffix_edge| path_prefix.include?(suffix_edge.v1) || path_prefix.include?(suffix_edge.v2) || path_suffix.include?(prefix_edge.v1) || path_suffix.include?(prefix_edge.v2) }
+    .collect do |prefix_edge, suffix_edge|
+      find_paths2(
+        path_prefix + (path_prefix.include?(prefix_edge.v1) ? [prefix_edge.v2] : [prefix_edge.v1]),
+        edges - [prefix_edge, suffix_edge],
+        (path_suffix.include?(suffix_edge.v1) ? [suffix_edge.v2] : [suffix_edge.v1]) + path_suffix,
+      )
+    end
+    .flatten(1)
+end
+
+# possible_paths = find_paths2([start_vertex], union[:edges], [end_vertex])
+possible_paths = find_paths2([start_vertex], intersection[:edges], [end_vertex])
+# possible_paths = find_paths2([start_vertex], pruned_forward[:edges], [end_vertex])
+
+timestamp
 puts "Possible Paths (#{possible_paths.size})"
 puts '--------------'
 # possible_paths.each { |path| puts path.join(' --> ') }
 puts
 
-def score(path)
-  ((path.size - 1) * 1000) + path.each_cons(2).map { |v1, v2| (v1.x - v2.x).abs + (v1.y - v2.y).abs }.sum
-end
-
 possible_scores = possible_paths.map { |path| score(path) }
 
+timestamp
 puts 'Possible Scores'
 puts '---------------'
 puts possible_scores.inspect
@@ -250,11 +332,15 @@ puts
 
 lowest_score = possible_scores.min
 
+timestamp
 puts "Lowest Score: #{lowest_score}"
 puts
 
-best_paths = possible_paths.select { |path| score(path) == lowest_score }
+best_paths = possible_paths.select do |path|
+  ((path.size - 1) * 1000) + path.each_cons(2).map { |v1, v2| (v1.x - v2.x).abs + (v1.y - v2.y).abs }.sum == lowest_score
+end
 
+timestamp
 puts "Best Paths (#{best_paths.size})"
 puts '--------------'
 best_paths.each { |path| puts path.join(' --> ') }
@@ -272,6 +358,7 @@ path_tiles = best_paths.map do |path|
     .uniq
 end
 
+timestamp
 puts 'Path Tiles'
 puts '----------'
 path_tiles.each { |tiles| puts tiles.size }
@@ -281,6 +368,7 @@ tiles = path_tiles.flatten.uniq
 
 tiles.each { |tile| map[tile.x][tile.y] = 'O' }
 
+timestamp
 puts 'Best Paths'
 puts '----------'
 print_map(map)
@@ -288,4 +376,5 @@ puts
 
 total = tiles.size
 
+timestamp
 puts "Total: #{total}"
