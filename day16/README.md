@@ -14,7 +14,22 @@ input after **101** cycles, when it was exploring **3,288,597** paths (2M of
 which were still active).  I was running out of memory and each new cycle was
 taking a really long time.
 
-I need a new approach.
+I needed a new approach.
+
+Enter graph theory.  I mapped each corner and intersection as vertices in a
+graph, including the start and end locations.  There are edges between vertices
+that have an open path between them.  The cost of each edge is its length.
+
+|  Graph  | Vertices | Edges |
+|:-------:|:--------:|:-----:|
+| sample1 |    33    |  57   |
+| sample2 |    36    |  51   |
+|  input  |  3,079   | 5,025 |
+
+Each edge represents a turn.  The total cost of a path from `S` to `E` will be
+1,000 times the number of edges, plus the sum of costs for these edges (plus one
+turn if we head North from `S`).  Because a turn is so costly, the path with the
+fewest edges should be the cheapest.
 
 ## Puzzle 02
 
