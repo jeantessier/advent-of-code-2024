@@ -31,6 +31,13 @@ Each edge represents a turn.  The total cost of a path from `S` to `E` will be
 turn if we head North from `S`).  Because a turn is so costly, the path with the
 fewest edges should be the cheapest.
 
+I grew paths from 'S', until at least one reached 'E'.  I then pruned all the
+false leads.  There were still too many edges to really identify paths, so I
+repeated the process in the other direction, starting at `E` and ending at `S`,
+and computed the intersection of edges that were in both sets.  I was able to
+use recursion on that small subset to identify paths.  Took just under
+**2 minutes**.
+
 ## Puzzle 02
 
 
