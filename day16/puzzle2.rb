@@ -3,9 +3,9 @@
 # Login to https://adventofcode.com/2024/day/16/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample1.txt') # Answer: 7036 (in 48 ms)
-# lines = File.readlines('sample2.txt') # Answer: 11048 (in 45 ms)
-lines = File.readlines('input.txt') # Answer: 90440 (in 117,450 ms)
+# lines = File.readlines('sample1.txt') # Answer: 45 (in 42 ms)
+# lines = File.readlines('sample2.txt') # Answer: 64 (in 63 ms)
+lines = File.readlines('input.txt') # Answer: 466 (in 117,710 ms) ** too low**
 
 # Renders the map (on *STDOUT* by default)
 def print_map(map, out = $stdout)
@@ -249,3 +249,34 @@ puts
 lowest_score = possible_scores.min
 
 puts "Lowest Score: #{lowest_score}"
+puts
+
+best_paths = possible_paths.select do |path|
+  ((path.size - 1) * 1000) + path.each_cons(2).map { |v1, v2| (v1.x - v2.x).abs + (v1.y - v2.y).abs }.sum == lowest_score
+end
+
+puts "Best Paths (#{best_paths.size})"
+puts '--------------'
+best_paths.each { |path| puts path.join(' --> ') }
+puts
+
+path_tiles = best_paths.map do |path|
+  path
+    .each_cons(2)
+    .map do |v1, v2|
+      x_range = ([v1.x, v2.x].min)..([v1.x, v2.x].max)
+      y_range = ([v1.y, v2.y].min)..([v1.y, v2.y].max)
+      x_range.collect { |x| y_range.collect { |y| Vertex.new(x, y) } }
+    end
+    .flatten
+    .uniq
+end
+
+puts 'Path Tiles'
+puts '----------'
+path_tiles.each { |tiles| puts tiles.size }
+puts
+
+total = path_tiles.flatten.uniq.size
+
+puts "Total: #{total}"

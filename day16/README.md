@@ -40,4 +40,7 @@ use recursion on that small subset to identify paths.  Took just under
 
 ## Puzzle 02
 
-
+I had paths from Puzzle 1.  I just need to select all the ones with the lowest
+score, compute all the vertices for each, and de-dupe them using Ruby's
+`#flatten` and `#uniq` methods.  It worked fine for the samples, but my initial
+implementation turned out too low when I used it against the real input.
