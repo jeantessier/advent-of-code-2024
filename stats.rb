@@ -7,41 +7,32 @@
 # or
 #     ./stats.rb | tee stats.csv
 #
+# It can fetch the overall stats from adventofcode.com, since they are public
+# data.  But getting personal times requires authentication.  I don't know how
+# to do that, so I copy my stats in this script as they become available.
+#
 
-# https://adventofcode.com/2024/stats
-overall_stats = '''
-16   16217   5385  ****
-15   24564   8797  *******
-14   34980   4051  *******
-13   37437   4757  ********
-12   36379  10146  *********
-11   49779   8201  ***********
-10   54683   1153  ***********
- 9   53555  10461  ***********
- 8   63737   2651  ************
- 7   73970   3823  **************
- 6   70881  24180  *****************
- 5   95227  12138  *******************
- 4  115883   9799  **********************
- 3  144080  15486  ****************************
- 2  158995  38850  **********************************
- 1  223784  16103  *****************************************
-'''.lines
-   .map(&:chomp)
-   .reject {|line| line.empty?}
-   .map(&:split)
-   .map {|row| row[0..2]}
-   .map {|row| row.map(&:to_i)}
-   .reduce([]) do |memo, row|
-      day = row[0]
-      first_and_second_puzzles = row[1]
-      first_puzzle_only = row[2]
-      memo[day] = {
-        finished_first_puzzle: first_and_second_puzzles + first_puzzle_only,
-        finished_second_puzzle: first_and_second_puzzles,
-      }
-      memo
-   end
+require 'net/http'
+
+STATS_REGEX = %r{<a href="/2024/day/\d+">\s*(?<day>\d+)\s+<span class="stats-both">\s*(?<both>\d+)</span>\s*<span class="stats-firstonly">\s*(?<firstonly>\d+)</span>}
+
+uri = URI.parse('https://adventofcode.com/2024/stats')
+response = Net::HTTP.get_response(uri)
+overall_stats = response.body
+                        .lines
+                        .map { |line| STATS_REGEX.match(line) }.compact
+                        .map { |match| match[1..] }
+                        .map { |row| row.map(&:to_i) }
+                        .reduce([]) do |memo, row|
+                          day = row[0]
+                          first_and_second_puzzles = row[1]
+                          first_puzzle_only = row[2]
+                          memo[day] = {
+                            finished_first_puzzle: first_and_second_puzzles + first_puzzle_only,
+                            finished_second_puzzle: first_and_second_puzzles,
+                          }
+                          memo
+                        end
 
 # https://adventofcode.com/2024/leaderboard/self
 personal_times = '''
