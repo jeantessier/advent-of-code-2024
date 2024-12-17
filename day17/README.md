@@ -27,5 +27,12 @@ I'm still burned out from the effort for Day 16.  I'm giving up on Puzzle 2.
 
 One more attempt.  I streamlined `Computer` instructions to rewrite them as
 bitwise operations.  Dividing by powers of 2 is equivalent to shifting bits
-right.  Modulo 8 is equivalent to keeping only the last three bits.  I'm hoping
-it will be easier to reverse instructions this way.
+right.  Modulo 8 is equivalent to keeping only the last three bits.  I was
+hoping it would be easier to reverse instructions this way.  I got it to work
+with the sample data, since that program does not use `Register C`.
+
+I need to seed `Register C` for it to work with the actual input.  Running `cdv`
+in reverse pushes the bits in `Register C` into the upper bits of `Register A`.
+The `7,5` instruction (`cdv B`) shifts the value from `Register C` by a number
+of bits given by `Register B` and copies them to `Register A`.  It preserves the
+lower bits of `Register A`.

@@ -1,14 +1,18 @@
 class ReverseComputer
   attr_reader :a, :b, :c, :output
 
-  INSTRUCTIONS = %i[adv bxl bst jnz bxc out bdv cdv]
+  INSTRUCTIONS = %i[adv bxl bst jnz bxc out bdv cdv].freeze
 
   def initialize(output)
     @a = 0
     @b = 0
     @c = 0
-    @instruction_pointer = 0
-    @output = output
+    @instruction_pointer = output.size
+    @output = output.clone
+
+    # Heuristic:
+    # there is only one *jump* instruction as last instruction.
+    @jump_location = output.size - 2
   end
 
   def literal_operand(operand)
@@ -26,47 +30,60 @@ class ReverseComputer
     end
   end
 
+  def rewind
+    # Heuristic:
+    # There is only one *jump* instruction in the program,
+    # and it jumps to *0*.
+    @instruction_pointer = @instruction_pointer.zero? ? @jump_location : @instruction_pointer - 2
+  end
+
   def adv(operand)
-    @a = (a * 2**combo_operand(operand)).to_i
-    @instruction_pointer -= 2
+    @a <<= combo_operand(operand)
   end
 
   def bxl(operand)
     @b ^= literal_operand(operand)
-    @instruction_pointer -= 2
   end
 
   def bst(operand)
-    @b = combo_operand(operand) % 8
-    @instruction_pointer -= 2
+    case operand
+    when 0..3 then nil # do nothing
+    when 4 then @a = (a >> 3 << 3) + b
+    when 5 then nil # Do nothing
+    when 6 then @c = (c >> 3 << 3) + b
+    when 7 then raise('Reserved operand')
+    else raise("Unknown operand: #{operand}")
+    end
   end
 
-  def jnz(operand)
-    if a.zero?
-      @instruction_pointer -= 2
-    else
-      @instruction_pointer = literal_operand(operand)
-    end
+  def jnz(_)
+    # Do nothing.
+    # Un-jumping is handled in #rewind
   end
 
   def bxc(_)
     @b ^= c
-    @instruction_pointer -= 2
   end
 
   def out(operand)
-    @output << combo_operand(operand) % 8
-    @instruction_pointer -= 2
+    value = output.pop
+
+    case operand
+    when 0..3 then nil # do nothing
+    when 4 then @a = (a >> 3 << 3) + value
+    when 5 then @b = (b >> 3 << 3) + value
+    when 6 then @c = (c >> 3 << 3) + value
+    when 7 then raise('Reserved operand')
+    else raise("Unknown operand: #{operand}")
+    end
   end
 
   def bdv(operand)
-    @b = (a / 2**combo_operand(operand)).to_i
-    @instruction_pointer -= 2
+    @a = (b << combo_operand(operand)) + (a / 2**combo_operand(operand))
   end
 
   def cdv(operand)
-    @c = (a / 2**combo_operand(operand)).to_i
-    @instruction_pointer -= 2
+    @a = c << combo_operand(operand) + (a / 2**combo_operand(operand))
   end
 
   def instruction(opcode)
@@ -93,19 +110,25 @@ class ReverseComputer
     dump_program(program)
     puts
 
-    while @instruction_pointer.positive? && !output.empty?
+    puts sprintf('%<pc>03d: HALT', pc: @instruction_pointer)
+    puts self
+
+    until @instruction_pointer.zero? && output.empty?
+      rewind
+
       opcode = program[@instruction_pointer]
       operand = program[@instruction_pointer + 1]
       instruction = instruction(opcode)
 
-      puts self
-      dump_instruction @instruction_pointer, opcode, operand
-
       public_send(instruction, operand)
+
+      dump_instruction @instruction_pointer, opcode, operand
+      puts self
+
+      # puts '[Enter] to continue'
+      # $stdin.gets
     end
 
-    puts self
-    puts sprintf('%<pc>03d: HALT', pc: @instruction_pointer)
     puts
   end
 

@@ -5,10 +5,8 @@ require './reverse_computer'
 # Login to https://adventofcode.com/2024/day/17/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample2.txt', chomp: true) # Answer: 117440 (in 59 ms)
-# A_OVERRIDE = 117_440
+# lines = File.readlines('sample2.txt', chomp: true) # Answer: 117440 (in 58 ms)
 lines = File.readlines('input.txt', chomp: true) # Answer: ?? (in ?? ms)
-A_OVERRIDE = nil
 
 separators = lines.map.with_index { |line, i| line.empty? ? i : nil }.compact
 
