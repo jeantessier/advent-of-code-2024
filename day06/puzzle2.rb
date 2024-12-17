@@ -31,7 +31,7 @@ def next_direction(direction)
   when [ 0,  1] then [ 1,  0]
   when [ 1,  0] then [ 0, -1]
   when [ 0, -1] then [-1,  0]
-  else throw Exception.new 'Invalid direction'
+  else raise 'Invalid direction'
   end
 end
 

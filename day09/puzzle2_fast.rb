@@ -84,7 +84,7 @@ checksum = sequences.map do |blocks|
   when FileBlocks
     ((pos - blocks.size)...pos).map { |i| blocks.id * i }.sum
   else
-    throw Exception.new 'Unexpected block'
+    raise 'Unexpected block'
   end
 end.sum
 

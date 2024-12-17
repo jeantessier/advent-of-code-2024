@@ -62,7 +62,7 @@ movements = lines[(separators.first)..].join.split('').map do |move|
   when '>' then Move.new(0, 1)
   when 'v' then Move.new(1, 0)
   when '<' then Move.new(0, -1)
-  else throw Exception.new "Illegal movement: #{move}"
+  else raise "Illegal movement: #{move}"
   end
 end
 
@@ -97,7 +97,7 @@ def one_movement(map, position, move)
       return position
     end
   else
-    throw Exception.new "Illegal movement to #{new_position}: #{map[new_position.x][new_position.y]}"
+    raise "Illegal movement to #{new_position}: #{map[new_position.x][new_position.y]}"
   end
 end
 

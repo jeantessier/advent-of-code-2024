@@ -11,7 +11,7 @@ EQUATION_REGEX = /(?<test_result>\d+): (?<operands>(\d+\s+)*\d+)/
 # Returns all variations of operands with :+ and :* operators,
 # with operators evaluated from left-to-right regardless of the operator.
 def evaluate(operands)
-  throw 'Invalid operands' if operands.empty?
+  raise 'Invalid operands' if operands.empty?
   return operands[0..0] if operands.size == 1
 
   evaluate(operands[..-2]).map do |partial|

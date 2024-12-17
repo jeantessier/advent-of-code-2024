@@ -73,7 +73,7 @@ movements = lines[(separators.first)..].join.split('').map do |move|
   when '>' then Move.new(0, 1)
   when 'v' then Move.new(1, 0)
   when '<' then Move.new(0, -1)
-  else throw Exception.new "Illegal movement: #{move}"
+  else raise "Illegal movement: #{move}"
   end
 end
 
@@ -111,7 +111,7 @@ def can_move?(map, positions, move)
     when '[' then can_move?(map, [new_position, Coord.new(new_position.x, new_position.y + 1)], move)
     when ']' then can_move?(map, [Coord.new(new_position.x, new_position.y - 1), new_position], move)
     when '.' then true
-    else throw Exception.new "Unknown thing at map #{new_position}: #{map[new_position.x][new_position.y]}"
+    else raise "Unknown thing at map #{new_position}: #{map[new_position.x][new_position.y]}"
     end
   end
 end
@@ -148,7 +148,7 @@ def one_movement(map, positions, move)
       when '[' then [new_position, Coord.new(new_position.x, new_position.y + 1)]
       when ']' then [Coord.new(new_position.x, new_position.y - 1), new_position]
       when '.' then []
-      else throw Exception.new "Unknown thing at map #{new_position}: #{map[new_position.x][new_position.y]}"
+      else raise "Unknown thing at map #{new_position}: #{map[new_position.x][new_position.y]}"
       end
     end.flatten.uniq
 
