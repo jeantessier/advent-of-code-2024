@@ -5,7 +5,7 @@ require './computer'
 # Login to https://adventofcode.com/2024/day/17/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample.txt', chomp: true) # Answer: 4,6,3,5,6,3,5,2,1,0 (in 56 ms)
+# lines = File.readlines('sample1.txt', chomp: true) # Answer: 4,6,3,5,6,3,5,2,1,0 (in 56 ms)
 lines = File.readlines('input.txt', chomp: true) # Answer: 5,0,3,5,7,6,1,5,4 (in 60 ms)
 
 separators = lines.map.with_index { |line, i| line.empty? ? i : nil }.compact
