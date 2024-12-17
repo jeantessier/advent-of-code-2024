@@ -7,7 +7,7 @@ CONSTANTS = {
   file: 'input.txt', x_size: 101, y_size: 103, answer: 226_548_000, time: '96 ms',
 }
 
-lines = File.readlines(CONSTANTS[:file])
+lines = File.readlines(CONSTANTS[:file], chomp:true)
 
 Robot = Data.define(:x, :y, :velocity_x, :velocity_y) do
   def coord

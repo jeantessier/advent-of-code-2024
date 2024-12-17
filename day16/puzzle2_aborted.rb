@@ -9,9 +9,9 @@ end
 # Login to https://adventofcode.com/2024/day/16/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample1.txt') # Answer: 45 (in 42 ms)
-# lines = File.readlines('sample2.txt') # Answer: 64 (in 63 ms)
-lines = File.readlines('input.txt') # Answer: 479 (in ?? ms)
+# lines = File.readlines('sample1.txt', chomp: true) # Answer: 45 (in 42 ms)
+# lines = File.readlines('sample2.txt', chomp: true) # Answer: 64 (in 63 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 479 (in ?? ms)
 
 # Renders the map (on *STDOUT* by default)
 def print_map(map, out = $stdout)
@@ -20,7 +20,7 @@ def print_map(map, out = $stdout)
   end
 end
 
-map = lines.map(&:chomp).map { |line| line.split('') }
+map = lines.map { |line| line.split('') }
 
 timestamp
 puts 'Map'

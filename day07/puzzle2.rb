@@ -3,8 +3,8 @@
 # Login to https://adventofcode.com/2024/day/7/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample.txt') # Answer: 11387 (in 56 ms)
-lines = File.readlines('input.txt') # Answer: 223472064194845 (in 3,472 ms)
+# lines = File.readlines('sample.txt', chomp: true) # Answer: 11387 (in 56 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 223472064194845 (in 3,472 ms)
 
 EQUATION_REGEX = /(?<test_result>\d+): (?<operands>(\d+\s+)*\d+)/
 

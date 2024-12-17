@@ -3,8 +3,8 @@
 # Login to https://adventofcode.com/2024/day/2/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines("sample.txt") # Answer: 4 (in 50 ms)
-lines = File.readlines("input.txt") # Answer: 601 (in 70 ms)
+# lines = File.readlines("sample.txt", chomp: true) # Answer: 4 (in 50 ms)
+lines = File.readlines("input.txt", chomp: true) # Answer: 601 (in 70 ms)
 
 reports = lines.map { |line| line.split(/\s+/).map(&:to_i) }
 

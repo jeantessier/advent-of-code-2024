@@ -5,10 +5,10 @@ require './machine'
 # Login to https://adventofcode.com/2024/day/13/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample.txt') # Answer: 875318608908 (in 62 ms)
-lines = File.readlines('input.txt') # Answer: 78101482023732 (in 68 ms)
+# lines = File.readlines('sample.txt', chomp: true) # Answer: 875318608908 (in 62 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 78101482023732 (in 68 ms)
 
-separators = lines.map(&:chomp).map.with_index { |line, i| line.empty? ? i : nil }.compact
+separators = lines.map.with_index { |line, i| line.empty? ? i : nil }.compact
 
 machine_ranges = ([-1] + separators + [lines.size]).each_cons(2).map { |pair| (pair.first + 1)...(pair.last) }
 

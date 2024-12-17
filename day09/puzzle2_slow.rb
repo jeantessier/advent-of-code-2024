@@ -3,8 +3,8 @@
 # Login to https://adventofcode.com/2024/day/9/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample.txt') # Answer: 2858 (in 56 ms)
-lines = File.readlines('input.txt') # Answer: 6360363199987 (in 314,430 ms)
+# lines = File.readlines('sample.txt', chomp: true) # Answer: 2858 (in 56 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 6360363199987 (in 314,430 ms)
 
 disk_map = lines.first.chomp.split(//).map(&:to_i)
 

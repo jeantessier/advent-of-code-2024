@@ -3,8 +3,8 @@
 # Login to https://adventofcode.com/2024/day/11/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample.txt') # Answer: 55312 (in 136 ms)
-lines = File.readlines('input.txt') # Answer: 220999 (in 416 ms)
+# lines = File.readlines('sample.txt', chomp: true) # Answer: 55312 (in 136 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 220999 (in 416 ms)
 
 class Stone
   attr_reader :number

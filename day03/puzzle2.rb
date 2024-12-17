@@ -3,8 +3,8 @@
 # Login to https://adventofcode.com/2024/day/3/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines("sample2.txt") # Answer: 48 (in 49 ms)
-lines = File.readlines("input.txt") # Answer: 84893551 (in 59 ms)
+# lines = File.readlines("sample2.txt", chomp: true) # Answer: 48 (in 49 ms)
+lines = File.readlines("input.txt", chomp: true) # Answer: 84893551 (in 59 ms)
 
 INSTRUCTION_REGEX = /((do\(\))|(don't\(\))|(mul\(\d{1,3},\d{1,3}\)))/
 MUL_REGEX = /mul\((\d{1,3}),(\d{1,3})\)/

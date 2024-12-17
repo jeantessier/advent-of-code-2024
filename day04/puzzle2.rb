@@ -3,8 +3,8 @@
 # Login to https://adventofcode.com/2024/day/4/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample.txt') # Answer: 9 (in 62 ms)
-lines = File.readlines('input.txt') # Answer: 1936 (in 67 ms)
+# lines = File.readlines('sample.txt', chomp: true) # Answer: 9 (in 62 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 1936 (in 67 ms)
 
 puts 'Initial State'
 puts '-------------'

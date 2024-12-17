@@ -6,12 +6,12 @@ require './region'
 # Login to https://adventofcode.com/2024/day/12/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample1.txt') # Answer: 80 (in 57 ms)
-# lines = File.readlines('sample2.txt') # Answer: 436 (in 60 ms)
-# lines = File.readlines('sample3.txt') # Answer: 1206 (in 65 ms)
-# lines = File.readlines('sample4.txt') # Answer: 236 (in 63 ms)
-# lines = File.readlines('sample5.txt') # Answer: 368 (in 64 ms)
-lines = File.readlines('input.txt') # Answer: 838988 (in 4,502 ms)
+# lines = File.readlines('sample1.txt', chomp: true) # Answer: 80 (in 57 ms)
+# lines = File.readlines('sample2.txt', chomp: true) # Answer: 436 (in 60 ms)
+# lines = File.readlines('sample3.txt', chomp: true) # Answer: 1206 (in 65 ms)
+# lines = File.readlines('sample4.txt', chomp: true) # Answer: 236 (in 63 ms)
+# lines = File.readlines('sample5.txt', chomp: true) # Answer: 368 (in 64 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 838988 (in 4,502 ms)
 
 # Renders the map (on *STDOUT* by default)
 def print_map(map, out = $stdout)
@@ -20,7 +20,7 @@ def print_map(map, out = $stdout)
   end
 end
 
-map = lines.map(&:chomp).map { |line| line.split('') }
+map = lines.map { |line| line.split('') }
 
 puts 'Map'
 puts '---'

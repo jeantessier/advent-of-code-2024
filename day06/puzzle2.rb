@@ -3,8 +3,8 @@
 # Login to https://adventofcode.com/2024/day/6/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample.txt') # Answer: 6 (in 50 ms)
-lines = File.readlines('input.txt') # Answer: 1721 (in 38,437 ms)
+# lines = File.readlines('sample.txt', chomp: true) # Answer: 6 (in 50 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 1721 (in 38,437 ms)
 
 # Renders the map (on *STDOUT* by default)
 def print_map(map, out = $stdout)

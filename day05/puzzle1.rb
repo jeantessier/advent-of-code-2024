@@ -3,8 +3,8 @@
 # Login to https://adventofcode.com/2024/day/5/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample.txt') # Answer: 143 (in 57 ms)
-lines = File.readlines('input.txt') # Answer: 5639 (in 86 ms)
+# lines = File.readlines('sample.txt', chomp: true) # Answer: 143 (in 57 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 5639 (in 86 ms)
 
 RULE_REGEX = /(\d+)\|(\d+)/
 UPDATE_REGEX = /(\d+,)+\d+/

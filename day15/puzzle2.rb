@@ -3,9 +3,9 @@
 # Login to https://adventofcode.com/2024/day/15/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample2.txt') # Answer: 9021 (in 76 ms)
-# lines = File.readlines('sample3.txt') # Answer: 618 (in 50 ms)
-lines = File.readlines('input.txt') # Answer: 1524905 (in 160 ms)
+# lines = File.readlines('sample2.txt', chomp: true) # Answer: 9021 (in 76 ms)
+# lines = File.readlines('sample3.txt', chomp: true) # Answer: 618 (in 50 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 1524905 (in 160 ms)
 
 Coord = Data.define(:x, :y) do
   def gps
@@ -38,9 +38,9 @@ def print_map(map, out = $stdout)
   end
 end
 
-separators = lines.map(&:chomp).map.with_index { |line, i| line.empty? ? i : nil }.compact
+separators = lines.map.with_index { |line, i| line.empty? ? i : nil }.compact
 
-map = lines[...(separators.first)].map(&:chomp).map do |line|
+map = lines[...(separators.first)].map do |line|
   line.split('').map do |char|
     case char
     when '#' then ['#', '#']
@@ -67,7 +67,7 @@ puts '-----'
 puts robot
 puts
 
-movements = lines[(separators.first)..].map(&:chomp).join.split('').map do |move|
+movements = lines[(separators.first)..].join.split('').map do |move|
   case move
   when '^' then Move.new(-1, 0)
   when '>' then Move.new(0, 1)

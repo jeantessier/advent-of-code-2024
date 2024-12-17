@@ -5,8 +5,8 @@ require './coord'
 # Login to https://adventofcode.com/2024/day/10/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample.txt') # Answer: 36 (in 57 ms)
-lines = File.readlines('input.txt') # Answer: 531 (in 63 ms)
+# lines = File.readlines('sample.txt', chomp: true) # Answer: 36 (in 57 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 531 (in 63 ms)
 
 # Renders the map (on *STDOUT* by default)
 def print_map(map, out = $stdout)

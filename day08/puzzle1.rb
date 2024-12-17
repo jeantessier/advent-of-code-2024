@@ -3,8 +3,8 @@
 # Login to https://adventofcode.com/2024/day/8/input to download 'input.txt'.
 
 # lines = readlines
-# lines = File.readlines('sample.txt') # Answer: 14 (in 58 ms)
-lines = File.readlines('input.txt') # Answer: 261 (in 62 ms)
+# lines = File.readlines('sample.txt', chomp: true) # Answer: 14 (in 58 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 261 (in 62 ms)
 
 Coord = Struct.new(:x, :y) do
   def to_s
