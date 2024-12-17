@@ -27,7 +27,9 @@ class Computer
   end
 
   def adv(operand)
-    @a = (a / 2**combo_operand(operand)).to_i
+    # @a = (a / 2**combo_operand(operand)).to_i
+    # Dividing by powers of two is equivalent to shifting right
+    @a >>= combo_operand(operand)
     @instruction_pointer += 2
   end
 
@@ -37,7 +39,9 @@ class Computer
   end
 
   def bst(operand)
-    @b = combo_operand(operand) % 8
+    # @b = combo_operand(operand) % 8
+    # Modulo 8 only retains the last 3 bits
+    @b = combo_operand(operand) & 7
     @instruction_pointer += 2
   end
 
@@ -55,17 +59,23 @@ class Computer
   end
 
   def out(operand)
-    @output << combo_operand(operand) % 8
+    # @output << combo_operand(operand) % 8
+    # Modulo 8 only retains the last 3 bits
+    @output << (combo_operand(operand) & 7)
     @instruction_pointer += 2
   end
 
   def bdv(operand)
-    @b = (a / 2**combo_operand(operand)).to_i
+    # @b = (a / 2**combo_operand(operand)).to_i
+    # Dividing by powers of two is equivalent to shifting right
+    @b = a >> combo_operand(operand)
     @instruction_pointer += 2
   end
 
   def cdv(operand)
-    @c = (a / 2**combo_operand(operand)).to_i
+    # @c = (a / 2**combo_operand(operand)).to_i
+    # Dividing by powers of two is equivalent to shifting right
+    @c = a >> combo_operand(operand)
     @instruction_pointer += 2
   end
 

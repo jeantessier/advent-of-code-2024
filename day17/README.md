@@ -24,3 +24,8 @@ of flimsy logic to keep track of.  And I haven't talked about `xor`'ing and
 copying arbitrary bits from `Register A` to `Register C`, etc.
 
 I'm still burned out from the effort for Day 16.  I'm giving up on Puzzle 2.
+
+One more attempt.  I streamlined `Computer` instructions to rewrite them as
+bitwise operations.  Dividing by powers of 2 is equivalent to shifting bits
+right.  Modulo 8 is equivalent to keeping only the last three bits.  I'm hoping
+it will be easier to reverse instructions this way.
