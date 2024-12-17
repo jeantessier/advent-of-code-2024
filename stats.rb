@@ -58,11 +58,8 @@ personal_times = '''
    .map(&:split)
    .map {|row| [row[0], row[2], row[5]]}
    .map {|row| row.map(&:to_i)}
-   .map do |row|
-      day = row[0]
-      my_first_puzzle_rank = row[1]
+   .map do |day, my_first_puzzle_rank, my_second_puzzle_rank|
       total_first_puzzle = overall_stats[day][:finished_first_puzzle]
-      my_second_puzzle_rank = row[2]
       total_second_puzzle = overall_stats[day][:finished_second_puzzle]
       [
         day,
@@ -71,9 +68,9 @@ personal_times = '''
         total_first_puzzle,
         ((1.0 - (my_first_puzzle_rank.to_f / total_first_puzzle)) * 100).to_i,
         '',
-        my_second_puzzle_rank,
+        my_second_puzzle_rank.positive? ? my_second_puzzle_rank : '',
         total_second_puzzle,
-        ((1.0 - (my_second_puzzle_rank.to_f / total_second_puzzle)) * 100).to_i,
+        my_second_puzzle_rank.positive? ? ((1.0 - (my_second_puzzle_rank.to_f / total_second_puzzle)) * 100).to_i : '',
       ]
    end
 
