@@ -80,3 +80,11 @@ puts "Day,,Part 1 Rank,Part 1 Total,Part 1 Percentile,,Part 2 Rank,Part 2 Total,
 personal_times.each do |row|
   puts row.join(',')
 end
+
+puts
+
+puts "| Day |  | Part 1 Rank | Part 1 Total | Part 1 Percentile |  | Part 2 Rank | Part 2 Total | Part 2 Percentile |"
+puts "|:---:|--|:-----------:|:------------:|:-----------------:|--|:-----------:|:------------:|:-----------------:|"
+personal_times.each do |row|
+  puts '| ' + row.join(' | ') + ' |'
+end
