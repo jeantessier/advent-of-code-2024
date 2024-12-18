@@ -11,7 +11,7 @@ class ReverseComputer
     @output = output.clone
     @log = log
 
-    # Heuristic:
+    # Assumption:
     # there is only one *jump* instruction as last instruction.
     @jump_location = output.size - 2
   end
@@ -32,7 +32,7 @@ class ReverseComputer
   end
 
   def rewind
-    # Heuristic:
+    # Assumption:
     # There is only one *jump* instruction in the program,
     # and it jumps to *0*.
     @instruction_pointer = @instruction_pointer.zero? ? @jump_location : @instruction_pointer - 2
@@ -63,7 +63,7 @@ class ReverseComputer
   end
 
   def bxc(_)
-    @b ^= c
+    @c ^= b
   end
 
   def out(operand)
