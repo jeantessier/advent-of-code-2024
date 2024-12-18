@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+require './coord'
+require './dijkstra'
+
 # Login to https://adventofcode.com/2024/day/18/input to download 'input.txt'.
 
 CONSTANTS = {
@@ -8,23 +11,6 @@ CONSTANTS = {
 }
 
 lines = File.readlines(CONSTANTS[:file], chomp:true)
-
-Coord = Data.define(:x, :y) do
-  def up = Coord.new(x - 1, y)
-  def right = Coord.new(x, y + 1)
-  def down = Coord.new(x + 1, y)
-  def left = Coord.new(x, y - 1)
-
-  def valid? = CONSTANTS[:x_range].include?(x) && CONSTANTS[:y_range].include?(y)
-
-  def neighbors
-    [up, right, down, left].select(&:valid?)
-  end
-
-  def to_s
-    "(#{x}, #{y})"
-  end
-end
 
 map = Array.new(CONSTANTS[:y_range].size) do |_|
   Array.new(CONSTANTS[:x_range].size, '.')
@@ -50,32 +36,11 @@ puts '-------------'
 print_map(map)
 puts
 
-distances = Array.new(CONSTANTS[:y_range].size) do |_|
-  Array.new(CONSTANTS[:x_range].size)
-end
-
-def print_distances(distances)
-  distances.each do |row|
-    puts '| ' + row.map { |d| d.nil? ? '---' : format('%3d', d) }.join(' | ') + ' |'
-  end
-end
-
-distances[0][0] = 0
-
-candidates = Coord.new(0, 0).neighbors
-until candidates.empty?
-  candidate = candidates.shift
-
-  neighbors = candidate.neighbors.reject { |neighbor| map[neighbor.y][neighbor.x] == '#' }.reject { |neighbor| candidates.include?(neighbor) }
-
-  distances[candidate.y][candidate.x] = neighbors.map { |neighbor| distances[neighbor.y][neighbor.x] }.compact.min + 1
-
-  candidates += neighbors.select { |neighbor| distances[neighbor.y][neighbor.x].nil? }
-end
+distances = Dijkstra.dijkstra(map, CONSTANTS[:x_range], CONSTANTS[:x_range])
 
 puts 'Distances'
 puts '---------'
-print_distances(distances)
+Dijkstra.print(distances)
 puts
 
 steps = distances.last.last
