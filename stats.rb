@@ -76,15 +76,18 @@ personal_times = '''
       ]
    end
 
-puts "Day,,Part 1 Rank,Part 1 Total,Part 1 Percentile,,Part 2 Rank,Part 2 Total,Part 2 Percentile"
-personal_times.each do |row|
-  puts row.join(',')
+File.open('stats.csv', 'w', 0644) do |f|
+  f.puts "Day,,Part 1 Rank,Part 1 Total,Part 1 Percentile,,Part 2 Rank,Part 2 Total,Part 2 Percentile"
+  personal_times.each do |row|
+    f.puts row.join(',')
+  end
 end
 
-puts
-
-puts "| Day |  | Part 1 Rank | Part 1 Total | Part 1 Percentile |  | Part 2 Rank | Part 2 Total | Part 2 Percentile |"
-puts "|:---:|--|:-----------:|:------------:|:-----------------:|--|:-----------:|:------------:|:-----------------:|"
-personal_times.each do |row|
-  puts '| ' + row.join(' | ') + ' |'
+File.open('stats.md', 'w', 0644) do |f|
+  f.puts "| Day |  | Part 1 Rank | Part 1 Total | Part 1 Percentile |  | Part 2 Rank | Part 2 Total | Part 2 Percentile |"
+  f.puts "|:---:|--|:-----------:|:------------:|:-----------------:|--|:-----------:|:------------:|:-----------------:|"
+  personal_times.each do |row|
+    row[0] = format('[%d](day%02d)', row[0], row[0])
+    f.puts '| ' + row.join(' | ') + ' |'
+  end
 end
