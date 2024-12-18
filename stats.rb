@@ -66,13 +66,13 @@ personal_times = '''
       [
         day,
         '',
-        my_first_puzzle_rank,
+        my_first_puzzle_rank.positive? ? my_first_puzzle_rank : '',
         total_first_puzzle,
-        ((1.0 - (my_first_puzzle_rank.to_f / total_first_puzzle)) * 100).to_i,
+        my_first_puzzle_rank.positive? ? ((1.0 - (my_first_puzzle_rank.to_f / total_first_puzzle)) * 100).to_i : '0',
         '',
         my_second_puzzle_rank.positive? ? my_second_puzzle_rank : '',
         total_second_puzzle,
-        my_second_puzzle_rank.positive? ? ((1.0 - (my_second_puzzle_rank.to_f / total_second_puzzle)) * 100).to_i : '',
+        my_second_puzzle_rank.positive? ? ((1.0 - (my_second_puzzle_rank.to_f / total_second_puzzle)) * 100).to_i : '0',
       ]
    end
 
