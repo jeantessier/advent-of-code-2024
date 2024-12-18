@@ -3,12 +3,13 @@ class ReverseComputer
 
   INSTRUCTIONS = %i[adv bxl bst jnz bxc out bdv cdv].freeze
 
-  def initialize(output)
+  def initialize(output, register_b = 0, register_c = 0, log: $stdout)
     @a = 0
-    @b = 0
-    @c = 0
+    @b = register_b
+    @c = register_c
     @instruction_pointer = output.size
     @output = output.clone
+    @log = log
 
     # Heuristic:
     # there is only one *jump* instruction as last instruction.
@@ -25,8 +26,8 @@ class ReverseComputer
     when 4 then a
     when 5 then b
     when 6 then c
-    when 7 then raise('Reserved operand')
-    else raise("Unknown operand: #{operand}")
+    when 7 then raise 'Reserved operand'
+    else raise "Unknown operand: #{operand}"
     end
   end
 
@@ -51,8 +52,8 @@ class ReverseComputer
     when 4 then @a = (a >> 3 << 3) + b
     when 5 then nil # Do nothing
     when 6 then @c = (c >> 3 << 3) + b
-    when 7 then raise('Reserved operand')
-    else raise("Unknown operand: #{operand}")
+    when 7 then raise 'Reserved operand'
+    else raise "Unknown operand: #{operand}"
     end
   end
 
@@ -73,8 +74,8 @@ class ReverseComputer
     when 4 then @a = (a >> 3 << 3) + value
     when 5 then @b = (b >> 3 << 3) + value
     when 6 then @c = (c >> 3 << 3) + value
-    when 7 then raise('Reserved operand')
-    else raise("Unknown operand: #{operand}")
+    when 7 then raise 'Reserved operand'
+    else raise "Unknown operand: #{operand}"
     end
   end
 
@@ -83,7 +84,7 @@ class ReverseComputer
   end
 
   def cdv(operand)
-    @a = c << combo_operand(operand) + (a / 2**combo_operand(operand))
+    @a = (c << combo_operand(operand)) + (a / 2**combo_operand(operand))
   end
 
   def instruction(opcode)
@@ -102,16 +103,16 @@ class ReverseComputer
                   when 1, 3 then operand.to_s
                   else ''
                   end
-    puts format('%<pc>03d: %<instr>s %<ref>s', pc:, instr: instruction(opcode), ref: operand_ref)
+    @log&.puts format('%<pc>03d: %<instr>s %<ref>s', pc:, instr: instruction(opcode), ref: operand_ref)
   end
 
   def reverse_run(program)
-    puts 'Running program in reverse:'
+    @log&.puts 'Running program in reverse:'
     dump_program(program)
-    puts
+    @log&.puts
 
-    puts sprintf('%<pc>03d: HALT', pc: @instruction_pointer)
-    puts self
+    @log&.puts sprintf('%<pc>03d: HALT', pc: @instruction_pointer)
+    @log&.puts self
 
     until @instruction_pointer.zero? && output.empty?
       rewind
@@ -120,16 +121,17 @@ class ReverseComputer
       operand = program[@instruction_pointer + 1]
       instruction = instruction(opcode)
 
+      dump_instruction @instruction_pointer, opcode, operand
+
       public_send(instruction, operand)
 
-      dump_instruction @instruction_pointer, opcode, operand
-      puts self
+      @log&.puts self
 
       # puts '[Enter] to continue'
       # $stdin.gets
     end
 
-    puts
+    @log&.puts
   end
 
   def to_s

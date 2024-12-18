@@ -36,3 +36,10 @@ in reverse pushes the bits in `Register C` into the upper bits of `Register A`.
 The `7,5` instruction (`cdv B`) shifts the value from `Register C` by a number
 of bits given by `Register B` and copies them to `Register A`.  It preserves the
 lower bits of `Register A`.
+
+At the end of the program, we know `Register A` is `0` because the last
+instruction, the jump, didn't jump and caused the `HALT`.  We also know that
+`Register B` is also `0` because the last thing we did was output that register
+and the last output value is `0`.  That leaves `Register C`.  We also know that
+at the beginning of the program, `Register B` and `Register C` were initialized
+to `0`.  So, reversing the program should drive these registers to `0`.
