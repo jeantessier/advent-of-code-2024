@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-require './reverse_computer'
+require './computer'
 
 # Login to https://adventofcode.com/2024/day/17/input to download 'input.txt'.
 
 # lines = readlines
 # lines = File.readlines('sample2.txt', chomp: true) # Answer: 117440 (in 58 ms)
-lines = File.readlines('input.txt', chomp: true) # Answer: ?? (in ?? ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 164516454365621 (in 131 ms)
 
 separators = lines.map.with_index { |line, i| line.empty? ? i : nil }.compact
 
@@ -16,41 +16,57 @@ init_state = lines[0...(separators.first)]
                .map { |line| REGISTER_REGEX.match(line) }
                .compact
                .reduce({}) do |acc, m|
-  acc[m[:register]] = m[:value].to_i
-  acc
-end
+                 acc[m[:register]] = m[:value].to_i
+                 acc
+               end
 
 PROGRAM_REGEX = /Program: (?<program>(\d+,)*\d+)/
 
-match = PROGRAM_REGEX.match(lines[separators.first + 1])
-if match
-  program = match[:program].split(',').map(&:to_i)
+program = PROGRAM_REGEX.match(lines[separators.first + 1])[:program].split(',').map(&:to_i)
 
-  catch :done do
-    (0..3).each do |initial_b|
-      (0..3).each do |initial_c|
-        puts "initial Register B: #{initial_b} Register C: #{initial_c}"
+OCTAL_DIGITS = ('0'..'7').collect { |d| d }
 
-        start = Time.now
+candidates = program.size.times.collect { |n| n }.reverse.reduce(['']) do |acc, n|
+  puts "#{n}: #{program.drop(n)}"
 
-        begin
-          # log = $stdout
-          log = nil
+  acc
+    .product(OCTAL_DIGITS)
+    .map { |prefix, digit| prefix + digit }
+    .select do |candidate|
+      register_a = candidate.oct
 
-          reverse_computer = ReverseComputer.new(program, initial_b, initial_c, log:)
-          reverse_computer.reverse_run(program)
-
-          puts reverse_computer
-
-          if reverse_computer.b == init_state['B'] && reverse_computer.c == init_state['C']
-            throw :done
-          end
-        rescue StandardError => e
-          puts "     #{e}"
-        ensure
-          puts format('     took %0.3f ms', (Time.now - start) * 1000)
-        end
-      end
+      computer = Computer.new(register_a, init_state['B'], init_state['C'], log: nil)
+      computer.run(program)
+      computer.output == program.drop(n)
     end
-  end
 end
+puts
+
+puts 'Candidates'
+puts '----------'
+candidates.each do |candidate|
+  puts "0#{candidate} ==> #{candidate.oct}"
+end
+puts
+
+# (0...0100000000).each do |candidate|
+# (0453200..0453207).each do |candidate|
+#
+#   # register_a = ([candidate] + values).reduce do |acc, value|
+#   #   acc = (acc << 3) + value
+#   #   acc
+#   # end
+#
+#   # register_a = (candidate.to_s + values.join).oct
+#   register_a = candidate
+#
+#   computer = Computer.new(register_a, init_state['B'], init_state['C'], log: nil)
+#
+#   computer.run(program)
+#
+#   # if computer.output == program[0..(computer.output.size - 1)]
+#     puts "candidate #{format('0%o', candidate)}: Register A: #{register_a} --> Output: #{computer.output.join(',')}"
+#   # end
+# end
+
+puts "Answer: #{candidates.map(&:oct).min}"

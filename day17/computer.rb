@@ -3,10 +3,11 @@ class Computer
 
   INSTRUCTIONS = %i[adv bxl bst jnz bxc out bdv cdv]
 
-  def initialize(a, b, c)
+  def initialize(a, b, c, log: $stdout)
     @a = a
     @b = b
     @c = c
+    @log = log
     @instruction_pointer = 0
     @output = []
   end
@@ -95,28 +96,28 @@ class Computer
                   when 1, 3 then operand.to_s
                   else ''
                   end
-    puts format('%<pc>03d: %<instr>s %<ref>s', pc:, instr: instruction(opcode), ref: operand_ref)
+    @log&.puts format('%<pc>03d: %<instr>s %<ref>s', pc:, instr: instruction(opcode), ref: operand_ref)
   end
 
   def run(program)
-    puts 'Running program:'
+    @log&.puts 'Running program:'
     dump_program(program)
-    puts
+    @log&.puts
 
     while @instruction_pointer < program.size
       opcode = program[@instruction_pointer]
       operand = program[@instruction_pointer + 1]
       instruction = instruction(opcode)
 
-      puts self
+      @log&.puts self
       dump_instruction @instruction_pointer, opcode, operand
 
       public_send(instruction, operand)
     end
 
-    puts self
-    puts sprintf('%<pc>03d: HALT', pc: @instruction_pointer)
-    puts
+    @log&.puts self
+    @log&.puts sprintf('%<pc>03d: HALT', pc: @instruction_pointer)
+    @log&.puts
   end
 
   def to_s
