@@ -4,7 +4,7 @@
 
 # lines = readlines
 # lines = File.readlines('sample.txt', chomp: true) # Answer: 6 (in 39 ms)
-lines = File.readlines('input.txt', chomp: true) # Answer: 213 (in 97 ms)
+lines = File.readlines('input.txt', chomp: true) # Answer: 213 (in 92 ms)
 
 separators = lines.map.with_index { |line, i| line.empty? ? i : nil }.compact
 
