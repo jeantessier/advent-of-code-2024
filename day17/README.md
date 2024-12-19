@@ -10,6 +10,8 @@ instruction.
 
 ## Puzzle 02
 
+### Abandoned Approach #1
+
 I thought of reversing my virtual machine to make it run the code in reverse.
 But, there is too much uncertainty.  I cannot reverse an arbitrary `jump`
 instruction.  It would have to be specific to the program, knowing that there
@@ -24,6 +26,8 @@ of flimsy logic to keep track of.  And I haven't talked about `xor`'ing and
 copying arbitrary bits from `Register A` to `Register C`, etc.
 
 I'm still burned out from the effort for Day 16.  I'm giving up on Puzzle 2.
+
+### Abandoned Approach #2
 
 One more attempt.  I streamlined `Computer` instructions to rewrite them as
 bitwise operations.  Dividing by powers of 2 is equivalent to shifting bits
@@ -46,6 +50,8 @@ to `0`.  So, reversing the program should drive these registers to `0`.
 
 I'm giving up, again.  There are too many possible values for `Register B` and
 `Register C` to consider.
+
+### Final Approach #3
 
 Looking at discussions, people are running numbers through their simulator and
 gradually build a solution that returns tails of the expected output.  The
