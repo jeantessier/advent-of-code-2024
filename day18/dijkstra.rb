@@ -14,7 +14,8 @@ module Dijkstra
 
       neighbors = candidate.neighbors.reject { |neighbor| map[neighbor.y][neighbor.x] == '#' }.reject { |neighbor| candidates.include?(neighbor) }
 
-      distances[candidate.y][candidate.x] = neighbors.map { |neighbor| distances[neighbor.y][neighbor.x] }.compact.min + 1
+      visited_neighbors = neighbors.map { |neighbor| distances[neighbor.y][neighbor.x] }.compact
+      distances[candidate.y][candidate.x] = visited_neighbors.min + 1 unless visited_neighbors.empty?
 
       candidates += neighbors.select { |neighbor| distances[neighbor.y][neighbor.x].nil? }
     end

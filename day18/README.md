@@ -9,4 +9,7 @@ at the exit.
 
 Run Dijkstra's algorithm after each byte and check if we reached the exit.  We
 know the first 1,024 bytes still leave a path, so we can start from there.  It
-ran in **56 seconds**.
+ran in **55,743ms**.
+
+Someone suggested using a binary search instead of incrementally trying out
+successive bytes.  That ran in **91ms**.
