@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
-# Login to https://adventofcode.com/2024/day/19/input to download 'input.txt'.
+require './coord'
+
+# Login to https://adventofcode.com/2024/day/20/input to download 'input.txt'.
 
 CONSTANTS = {
   # file: 'sample.txt', threshold: 10, answer: 10, time: '50 ms',
@@ -24,43 +26,6 @@ puts 'Map'
 puts '---'
 print_map(map)
 puts
-
-Coord = Data.define(:map, :x, :y) do
-  def up = Coord.new(map, x - 1, y)
-  def right = Coord.new(map, x, y + 1)
-  def down = Coord.new(map, x + 1, y)
-  def left = Coord.new(map, x, y - 1)
-
-  def neighbors
-    [up, right, down, left].select(&:track?)
-  end
-
-  def walls
-    [up, right, down, left].select(&:valid?).reject(&:track?)
-  end
-
-  def track?
-    map[x][y] != '#'
-  end
-
-  def valid?
-    x.respond_to? && x < (map.size - 1) && y.positive? && y < (map.first.size - 1)
-  end
-
-  def -(other)
-    case
-    when x - 1 == other.x && y == other.y then :up
-    when x == other.x && y + 1 == other.y then :right
-    when x + 1 == other.x && y == other.y then :down
-    when x == other.x && y - 1 == other.y then :left
-    else raise "Invalid difference between #{self} and #{other}"
-    end
-  end
-
-  def to_s
-    "(#{x}, #{y})"
-  end
-end
 
 start = map.collect.with_index do |row, x|
   row.collect.with_index do |cell, y|
