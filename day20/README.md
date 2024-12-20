@@ -31,3 +31,9 @@ these infinities.
 
 I didn't need the histogram, after all.  Just counting the savings that were
 above the threshold was enough.
+
+## General Case
+
+Puzzle 1 is the same as Puzzle 2, but with a maximum cheat length of 2.  I made
+the code more generic in `puzzle_general.rb`.  The maximum length of cheats is
+now a problem parameter and the same code solves either puzzle.
