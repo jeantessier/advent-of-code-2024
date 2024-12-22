@@ -1,6 +1,15 @@
 require './vector'
 
 class Keypad
+  def initialize(delegate, keys)
+    @delegate = delegate
+
+    @key_to_coord = keys.to_h
+    @coord_to_key = keys.map(&:reverse).to_h
+
+    @cache = {}
+  end
+
   def coord_for(key)
     @key_to_coord[key]
   end
@@ -33,13 +42,16 @@ class Keypad
   end
 
   def press_sequence(input_sequence)
+    return @cache[input_sequence] if @cache.has_key?(input_sequence)
+
     possibilities = ('A' + input_sequence)
                       .split('')
                       .each_cons(2)
                       .collect { |from, to| move(from, to) }
                       .map { |sequences| sequences.map { |sequence| sequence << 'A' } }
+                      .map { |sequences| sequences.map { |sequence| @delegate.nil? ? sequence : @delegate.press_sequence(sequence) } }
 
-    coalesce(possibilities).map(&:join)
+    @cache[input_sequence] = coalesce(possibilities).map(&:join)
   end
 
   def coalesce(sequences)

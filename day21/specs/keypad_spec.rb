@@ -1,7 +1,7 @@
 require './keypad'
 
 RSpec.describe Keypad do
-  subject(:keypad) { Keypad.new }
+  subject(:keypad) { Keypad.new nil, [] }
 
   describe '#coalesce' do
     subject { keypad.coalesce sequences }

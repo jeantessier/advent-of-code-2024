@@ -1,7 +1,7 @@
 require './numerical_keypad'
 
 RSpec.describe NumericalKeypad do
-  subject(:keypad) { described_class.new }
+  subject(:keypad) { described_class.new nil }
 
   context "code 029A" do
     [

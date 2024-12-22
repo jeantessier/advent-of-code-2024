@@ -8,10 +8,7 @@ class NumericalKeypad < Keypad
     ['1', Coord.new(2, 0)], ['2', Coord.new(2, 1)], ['3', Coord.new(2, 2)],
                             ['0', Coord.new(3, 1)], ['A', Coord.new(3, 2)],
   ]
-  def initialize
-    super
-
-    @key_to_coord = KEYS.to_h
-    @coord_to_key = KEYS.map(&:reverse).to_h
+  def initialize(delegate)
+    super(delegate, KEYS)
   end
 end

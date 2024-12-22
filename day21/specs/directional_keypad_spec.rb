@@ -1,7 +1,7 @@
 require './directional_keypad'
 
 RSpec.describe DirectionalKeypad do
-  subject(:keypad) { described_class.new }
+  subject(:keypad) { described_class.new nil }
 
   # These sequences come from trying to type '029A' on a numerical keypad.
 

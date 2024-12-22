@@ -7,7 +7,7 @@ require './directional_keypad'
 
 CONSTANTS = {
   # file: 'sample.txt', answer: 126384, time: '65 ms',
-  file: 'input.txt', answer: 197560, time: '143 ms',
+  file: 'input.txt', answer: 197560, time: '132 ms',
 }
 
 lines = File.readlines(CONSTANTS[:file], chomp:true)
@@ -19,9 +19,9 @@ puts '-----'
 puts codes
 puts
 
-depressurized_keypad = NumericalKeypad.new
-radiation_keypad = DirectionalKeypad.new
-cold_keypad = DirectionalKeypad.new
+depressurized_keypad = NumericalKeypad.new nil
+radiation_keypad = DirectionalKeypad.new nil
+cold_keypad = DirectionalKeypad.new nil
 
 Sequence = Data.define(:code, :shortest_sequence) do
   def complexity

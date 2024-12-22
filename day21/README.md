@@ -23,7 +23,10 @@ The `Keypad#coalesce` method is possibly misnamed, too.
 
 ## Puzzle 2
 
+Instead of 2 `DirectionalKeypad`, there are now 25.  My keypad instances are
+stateless, so I can reuse the same one.
 
+I suspect that caching partial results will be helpful here too.
 
 ## Tests
 
