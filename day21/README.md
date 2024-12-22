@@ -11,7 +11,7 @@ that were going over the gap, which are illegal.
 Eventually, I went to reddit and found one discussion that mentioned "special
 rules" for avoiding the corner.  That was all I needed.
 
-I built abstractions for `NumericanKeypad` and `DirectionalKeypad`, along with
+I built abstractions for `NumericalKeypad` and `DirectionalKeypad`, along with
 some helper classes for `Coord` and `Vector` to move across the keypads.  The
 logic got to have so many corner cases (pun intended) that I had to write some
 tests for them.
