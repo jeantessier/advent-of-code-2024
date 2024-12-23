@@ -19,11 +19,18 @@ puts '-----'
 puts codes
 puts
 
-directional_keypad = DirectionalKeypad.new(nil)
-(CONSTANTS[:number_of_directional_keypads] - 1).times do |_|
-  directional_keypad = DirectionalKeypad.new(directional_keypad)
+def print_keypad(keypad, indent = 0, out = $stdout)
+  out.puts format('%2d: %s%s', indent, indent.times.collect { "  " }.join, keypad.class)
+  print_keypad(keypad.delegate, indent + 1, out) unless keypad.delegate.nil?
 end
+
+directional_keypad = CONSTANTS[:number_of_directional_keypads].times.reduce(nil) { |delegate, _| DirectionalKeypad.new(delegate) }
 numerical_keypad = NumericalKeypad.new(directional_keypad)
+
+puts 'Keypads'
+puts '-------'
+print_keypad(numerical_keypad)
+puts
 
 Sequence = Data.define(:code, :shortest_sequence) do
   def complexity

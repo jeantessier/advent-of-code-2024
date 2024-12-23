@@ -1,6 +1,8 @@
 require './vector'
 
 class Keypad
+  attr_reader :delegate
+
   def initialize(delegate, keys)
     @delegate = delegate
 
@@ -42,7 +44,10 @@ class Keypad
   end
 
   def press_sequence(input_sequence)
+    puts "*** press_sequence(\"#{input_sequence}\")"
     return @cache[input_sequence] if @cache.has_key?(input_sequence)
+
+    puts '    Calculating'
 
     possibilities = ('A' + input_sequence)
                       .split('')
@@ -50,7 +55,7 @@ class Keypad
                       .collect { |from, to| move(from, to) }
                       .map { |sequences| sequences.map { |sequence| sequence << 'A' } }
                       .map { |sequences| sequences.map(&:join) }
-                      .map { |sequences| @delegate ?  sequences.map { |sequence| @delegate.press_sequence(sequence) } : [sequences] }
+                      .map { |sequences| delegate ?  sequences.map { |sequence| delegate.press_sequence(sequence) } : [sequences] }
                       .map(&:flatten)
 
     @cache[input_sequence] = coalesce(possibilities)
