@@ -44,32 +44,16 @@ class Keypad
   end
 
   def press_sequence(input_sequence)
-    puts "*** press_sequence(\"#{input_sequence}\")"
     return @cache[input_sequence] if @cache.has_key?(input_sequence)
 
-    puts '    Calculating'
-
-    possibilities = ('A' + input_sequence)
-                      .split('')
-                      .each_cons(2)
-                      .collect { |from, to| move(from, to) }
-                      .map { |sequences| sequences.map { |sequence| sequence << 'A' } }
-                      .map { |sequences| sequences.map(&:join) }
-                      .map { |sequences| delegate ?  sequences.map { |sequence| delegate.press_sequence(sequence) } : [sequences] }
-                      .map(&:flatten)
-
-    @cache[input_sequence] = coalesce(possibilities)
-  end
-
-  def coalesce(sequences)
-    return [] if sequences.empty?
-    return sequences.first if sequences.size == 1
-
-    head = sequences.first
-    tail = sequences[1..]
-
-    head
-      .product(coalesce(tail))
-      .collect { |head_sequence, tail_sequence| head_sequence + tail_sequence }
+    @cache[input_sequence] = ('A' + input_sequence)
+                               .split('')
+                               .each_cons(2)
+                               .collect { |from, to| move(from, to) }
+                               .map { |sequences| sequences.map { |sequence| sequence << 'A' } }
+                               .map { |sequences| sequences.map(&:join) }
+                               .map { |sequences| delegate ?  sequences.map { |sequence| delegate.press_sequence(sequence) } : sequences.map(&:size) }
+                               .map(&:min)
+                               .sum
   end
 end

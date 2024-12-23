@@ -32,6 +32,10 @@ It works just file for Puzzle 1, with one `NumericalKeypad` and two
 `DirectionalKeypad`, but it seems to get stuck in a loop the moment I add a
 third `DirectionalKeypad`.
 
+_UPDATE:_ I've identified the loop as the `#coalesce` method.  Maybe I don't
+need to return the strings of movements themselves, and just the length of the
+shortest one.
+
 ## Tests
 
 I wrote some tests to help me nail down the logic.  You can run them with:

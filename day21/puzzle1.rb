@@ -6,8 +6,8 @@ require './directional_keypad'
 # Login to https://adventofcode.com/2024/day/21/input to download 'input.txt'.
 
 CONSTANTS = {
-  # file: 'sample.txt', answer: 126384, time: '56 ms',
-  file: 'input.txt', answer: 197560, time: '69 ms',
+  # file: 'sample.txt', answer: 126384, time: '53 ms',
+  file: 'input.txt', answer: 197560, time: '54 ms',
 }
 
 lines = File.readlines(CONSTANTS[:file], chomp:true)
@@ -36,11 +36,7 @@ end
 sequences = codes.map do |code|
   Sequence.new(
     code,
-    depressurized_keypad
-      .press_sequence(code)
-      .map(&:size)
-      .tap { |sizes| puts sizes.reduce(Hash.new(0)) { |histo, size| histo[size] += 1; histo } }
-      .min,
+    depressurized_keypad.press_sequence(code)
   )
 end
 

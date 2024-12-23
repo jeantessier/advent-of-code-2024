@@ -26,8 +26,9 @@ RSpec.describe NumericalKeypad do
           '<A^A>^^AvvvA',
         ]
       end
+      let(:expected_shortest_sequence) { expected_sequences.map(&:size).min }
 
-      it { is_expected.to eq expected_sequences }
+      it { is_expected.to eq expected_shortest_sequence }
     end
   end
 
