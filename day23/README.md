@@ -20,4 +20,17 @@ trios with at least one computer starting with `t`.
 
 ## Puzzle 2
 
+There are 520 computers and **520!** possible combinations.  But, each computer
+has at most 13 connections.  So, that's **520 * 14!** combinations to check,
+which is much smaller, but still too much.
 
+I can catch the largest LAN party by any one of its participants.  So, for each
+computer, I can try to build the largest fully-connected group from its
+connections instead.  That's **520 * 14<sup>2</sup>** connections to check
+(actually, about half of that).  For each computer, I find the largest group
+that includes it, convert each group to its password, sort by length, and take
+the largest.  It ran in **76ms**.
+
+> At first, I was assuming the largest LAN party would include a computer
+> starting with `t`.  Because of the problem statement in Puzzle 1.  It turns
+> out that wasn't the case.
