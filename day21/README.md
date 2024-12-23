@@ -1,4 +1,4 @@
-# Day 12
+# [Day 21](https://adventofcode.com/2024/day/21)
 
 ## Puzzle 1
 
