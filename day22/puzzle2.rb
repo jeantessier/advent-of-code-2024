@@ -16,7 +16,7 @@ puts
 def next_secret_number(secret_number)
   secret_number = mix_and_prune(secret_number, secret_number << 6) # Multiply by 64, or shift left by 6 bits
   secret_number = mix_and_prune(secret_number, secret_number >> 5) # Divide by 32, or shift right by 5 bits
-  secret_number = mix_and_prune(secret_number, secret_number << 11) # Multiply by 248, or shift left by 11 bits
+  secret_number = mix_and_prune(secret_number, secret_number << 11) # Multiply by 2048, or shift left by 11 bits
 end
 
 def mix_and_prune(n, mixin)
