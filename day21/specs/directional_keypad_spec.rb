@@ -3,74 +3,74 @@ require './directional_keypad'
 RSpec.describe DirectionalKeypad do
   subject(:keypad) { described_class.new nil }
 
-  # These sequences come from trying to type '029A' on a numerical keypad.
-
-  context "sequence <A" do
-    [
-      ['A', '<', [['v', '<', '<']]],
-      ['<', 'A', [['>', '>', '^']]],
-    ].each do |from, to, expected_movements|
-      describe "when moving from key #{from} to key #{to}" do
-        subject { keypad.move(from, to) }
-        it { is_expected.to eq expected_movements }
-      end
-    end
-  end
-
-  context "sequence ^A" do
-    [
-      ['A', '^', [['<']]],
-      ['^', 'A', [['>']]],
-    ].each do |from, to, expected_movements|
-      describe "when moving from key #{from} to key #{to}" do
-        subject { keypad.move(from, to) }
-        it { is_expected.to eq expected_movements }
-      end
-    end
-  end
-
-  context "sequence >^^A" do
-    [
-      ['A', '>', [['v']]],
-      ['>', '^', [['^', '<'], ['<', '^']]],
-      ['^', '^', [[]]],
-      ['^', 'A', [['>']]],
-    ].each do |from, to, expected_movements|
-      describe "when moving from key #{from} to key #{to}" do
-        subject { keypad.move(from, to) }
-        it { is_expected.to eq expected_movements }
-      end
-    end
-  end
-
-  context "sequence vvvA" do
-    [
-      ['A', 'v', [['v', '<'], ['<', 'v']]],
-      ['v', 'v', [[]]],
-      ['v', 'v', [[]]],
-      ['v', 'A', [['^', '>'], ['>', '^']]],
-    ].each do |from, to, expected_movements|
-      describe "when moving from key #{from} to key #{to}" do
-        subject { keypad.move(from, to) }
-        it { is_expected.to eq expected_movements }
+  context 'wanting to type "029A" on a numerical keypad.' do
+    context "sequence <A" do
+      [
+        ['A', '<', ['v<<']],
+        ['<', 'A', ['>>^']],
+      ].each do |from, to, expected_movements|
+        describe "when moving from key #{from} to key #{to}" do
+          subject { keypad.move(from, to) }
+          it { is_expected.to eq expected_movements }
+        end
       end
     end
 
-    describe '#press_sequence' do
-      subject { keypad.press_sequence code }
-
-      let(:code) { 'vvvA' }
-      let(:expected_sequences) do
-        [
-          'v<AAA^>A',
-          'v<AAA>^A',
-          '<vAAA^>A',
-          '<vAAA>^A',
-        ]
+    context "sequence ^A" do
+      [
+        ['A', '^', ['<']],
+        ['^', 'A', ['>']],
+      ].each do |from, to, expected_movements|
+        describe "when moving from key #{from} to key #{to}" do
+          subject { keypad.move(from, to) }
+          it { is_expected.to eq expected_movements }
+        end
       end
-      let(:expected_shortest_sequence) { expected_sequences.map(&:size).min }
+    end
 
-      it { is_expected.to eq expected_shortest_sequence }
+    context "sequence >^^A" do
+      [
+        ['A', '>', ['v']],
+        ['>', '^', ['^<', '<^']],
+        ['^', '^', ['']],
+        ['^', 'A', ['>']],
+      ].each do |from, to, expected_movements|
+        describe "when moving from key #{from} to key #{to}" do
+          subject { keypad.move(from, to) }
+          it { is_expected.to eq expected_movements }
+        end
+      end
+    end
+
+    context "sequence vvvA" do
+      [
+        ['A', 'v', ['v<', '<v']],
+        ['v', 'v', ['']],
+        ['v', 'v', ['']],
+        ['v', 'A', ['^>', '>^']],
+      ].each do |from, to, expected_movements|
+        describe "when moving from key #{from} to key #{to}" do
+          subject { keypad.move(from, to) }
+          it { is_expected.to eq expected_movements }
+        end
+      end
+
+      describe '#press_sequence' do
+        subject { keypad.press_sequence code }
+
+        let(:code) { 'vvvA' }
+        let(:expected_sequences) do
+          [
+            'v<AAA^>A',
+            'v<AAA>^A',
+            '<vAAA^>A',
+            '<vAAA>^A',
+          ]
+        end
+        let(:expected_shortest_sequence) { expected_sequences.map(&:size).min }
+
+        it { is_expected.to eq expected_shortest_sequence }
+      end
     end
   end
 

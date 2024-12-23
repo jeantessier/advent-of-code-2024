@@ -5,10 +5,10 @@ RSpec.describe NumericalKeypad do
 
   context "code 029A" do
     [
-      ['A', '0', [['<']]],
-      ['0', '2', [['^']]],
-      ['2', '9', [['^', '^', '>'], ['>', '^', '^']]],
-      ['9', 'A', [['v', 'v', 'v']]],
+      ['A', '0', ['<']],
+      ['0', '2', ['^']],
+      ['2', '9', ['^^>', '>^^']],
+      ['9', 'A', ['vvv']],
     ].each do |from, to, expected_movements|
       describe "when moving from key #{from} to key #{to}" do
         subject { keypad.move(from, to) }
@@ -34,10 +34,10 @@ RSpec.describe NumericalKeypad do
 
   context "code 379A" do
     [
-      ['A', '3', [['^']]],
-      ['3', '7', [['^', '^', '<', '<'], ['<', '<', '^', '^']]],
-      ['7', '9', [['>', '>']]],
-      ['9', 'A', [['v', 'v', 'v']]],
+      ['A', '3', ['^']],
+      ['3', '7', ['^^<<', '<<^^']],
+      ['7', '9', ['>>']],
+      ['9', 'A', ['vvv']],
     ].each do |from, to, expected_movements|
       describe "when moving from key #{from} to key #{to}" do
         subject { keypad.move(from, to) }

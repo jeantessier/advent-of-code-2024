@@ -29,14 +29,14 @@ class Keypad
     result = []
 
     if vector.x_movements.empty? || vector.y_movements.empty?
-      result << (vector.x_movements + vector.y_movements)
+      result << (vector.x_movements + vector.y_movements).join
     else
       unless key_in_vertical_corner.nil?
-        result << (vector.x_movements + vector.y_movements)
+        result << (vector.x_movements + vector.y_movements).join
       end
 
       unless key_in_horizontal_corner.nil?
-        result << (vector.y_movements + vector.x_movements)
+        result << (vector.y_movements + vector.x_movements).join
       end
     end
 
@@ -50,8 +50,7 @@ class Keypad
                                .split('')
                                .each_cons(2)
                                .collect { |from, to| move(from, to) }
-                               .map { |sequences| sequences.map { |sequence| sequence << 'A' } }
-                               .map { |sequences| sequences.map(&:join) }
+                               .map { |sequences| sequences.map { |sequence| sequence + 'A' } }
                                .map { |sequences| delegate ?  sequences.map { |sequence| delegate.press_sequence(sequence) } : sequences.map(&:size) }
                                .map(&:min)
                                .sum
