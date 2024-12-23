@@ -36,6 +36,7 @@ overall_stats = response.body
 
 # https://adventofcode.com/2024/leaderboard/self
 personal_times = '''
+ 23   01:29:47    5112      0   03:09:55   5501      0
  22   20:46:15   18822      0   22:04:55  15777      0
  21   23:18:24   12227      0          -      -      -
  20   02:17:40    5741      0   05:20:26   6342      0
