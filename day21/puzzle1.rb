@@ -6,8 +6,8 @@ require './directional_keypad'
 # Login to https://adventofcode.com/2024/day/21/input to download 'input.txt'.
 
 CONSTANTS = {
-  # file: 'sample.txt', answer: 126384, time: '65 ms',
-  file: 'input.txt', answer: 197560, time: '132 ms',
+  # file: 'sample.txt', answer: 126384, time: '56 ms',
+  file: 'input.txt', answer: 197560, time: '69 ms',
 }
 
 lines = File.readlines(CONSTANTS[:file], chomp:true)
@@ -19,9 +19,9 @@ puts '-----'
 puts codes
 puts
 
-depressurized_keypad = NumericalKeypad.new nil
-radiation_keypad = DirectionalKeypad.new nil
 cold_keypad = DirectionalKeypad.new nil
+radiation_keypad = DirectionalKeypad.new cold_keypad
+depressurized_keypad = NumericalKeypad.new radiation_keypad
 
 Sequence = Data.define(:code, :shortest_sequence) do
   def complexity
@@ -38,10 +38,6 @@ sequences = codes.map do |code|
     code,
     depressurized_keypad
       .press_sequence(code)
-      .collect { |s| radiation_keypad.press_sequence s }
-      .flatten
-      .collect { |s| cold_keypad.press_sequence s }
-      .flatten
       .map(&:size)
       .tap { |sizes| puts sizes.reduce(Hash.new(0)) { |histo, size| histo[size] += 1; histo } }
       .min,

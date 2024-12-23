@@ -49,9 +49,11 @@ class Keypad
                       .each_cons(2)
                       .collect { |from, to| move(from, to) }
                       .map { |sequences| sequences.map { |sequence| sequence << 'A' } }
-                      .map { |sequences| sequences.map { |sequence| @delegate.nil? ? sequence : @delegate.press_sequence(sequence) } }
+                      .map { |sequences| sequences.map(&:join) }
+                      .map { |sequences| @delegate ?  sequences.map { |sequence| @delegate.press_sequence(sequence) } : [sequences] }
+                      .map(&:flatten)
 
-    @cache[input_sequence] = coalesce(possibilities).map(&:join)
+    @cache[input_sequence] = coalesce(possibilities)
   end
 
   def coalesce(sequences)
