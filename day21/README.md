@@ -23,10 +23,14 @@ The `Keypad#coalesce` method is possibly misnamed, too.
 
 ## Puzzle 2
 
-Instead of 2 `DirectionalKeypad`, there are now 25.  My keypad instances are
-stateless, so I can reuse the same one.
+Instead of 2 `DirectionalKeypad`, there are now 25.
 
-I suspect that caching partial results will be helpful here too.
+I refactored `Keypad` so I can chain them instead, à la Decorator design
+pattern.  I also added a cache in each one to memoize repeated calculations.
+
+It works just file for Puzzle 1, with one `NumericalKeypad` and two
+`DirectionalKeypad`, but it seems to get stuck in a loop the moment I add a
+third `DirectionalKeypad`.
 
 ## Tests
 
