@@ -4,14 +4,30 @@ require './gate'
 
 # Login to https://adventofcode.com/2024/day/24/input to download 'input.txt'.
 
-# lines = readlines
-# lines = File.readlines('sample1.txt', chomp: true) # Answer: 4 (in 58 ms)
-# lines = File.readlines('sample2.txt', chomp: true) # Answer: 2024 (in 44 ms)
-lines = File.readlines('input.txt', chomp: true) # Answer: 63168299811048 (in 65 ms)
+CONSTANTS = {
+  # file: 'sample1.txt', answer: 4, time: '58 ms',
+  # file: 'sample2.txt', answer: 2024, time: '44 ms',
+  file: 'input.txt', answer: 63168299811048, time: '65 ms',
+}
+
+lines = File.readlines(CONSTANTS[:file], chomp:true)
 
 separator = lines.map.with_index { |line, i| line.empty? ? i : nil }.compact.first
 
 WIRE_REGEX = /(?<wire>\w+): (?<value>[01])/
+
+def bits_from(wires, prefix)
+  wires
+    .select { |wire, _| wire.start_with?(prefix) }
+    .sort
+    .reverse
+end
+
+def number_from(wires, prefix)
+  bits_from(wires, prefix).reduce(0) do |acc, wire|
+    acc | (wire[1] << (wire[0][1..].to_i))
+  end
+end
 
 wires = lines[...separator]
           .map { |line| WIRE_REGEX.match(line) }
@@ -64,18 +80,16 @@ puts '-----'
 puts wires
 puts
 
-z_wires = wires
-            .select { |wire, _| wire.start_with?('z') }
-            .sort
-            .reverse
+z_wires = bits_from(wires, 'z')
 
 puts 'Z Wires'
 puts '-------'
 puts z_wires.map { |_, v| v }.join
 puts
 
-answer = z_wires.reduce(0) do |acc, wire|
-  acc | (wire[1] << (wire[0][1..].to_i))
-end
+answer = number_from(wires, 'z')
 
 puts "Answer: #{answer}"
+puts '__too low__' if answer < CONSTANTS[:answer]
+puts '**CORRECT**' if answer == CONSTANTS[:answer]
+puts '__too much__' if answer > CONSTANTS[:answer]

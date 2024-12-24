@@ -1,5 +1,6 @@
 class Gate
-  attr_reader :input1, :input2, :output
+  attr_reader :input1, :input2
+  attr_accessor :output
 
   def initialize(input1, input2, output)
     @input1 = input1
