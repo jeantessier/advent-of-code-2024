@@ -28,13 +28,13 @@ Instead of 2 `DirectionalKeypad`, there are now 25.
 I refactored `Keypad` so I can chain them instead, à la Decorator design
 pattern.  I also added a cache in each one to memoize repeated calculations.
 
-It works just file for Puzzle 1, with one `NumericalKeypad` and two
+It works just fine for Puzzle 1, with one `NumericalKeypad` and two
 `DirectionalKeypad`, but it seems to get stuck in a loop the moment I add a
 third `DirectionalKeypad`.
 
 _UPDATE:_ I've identified the loop as the `#coalesce` method.  I didn't need to
-return the strings of movements themselves, and just the length of the shortest
-one.  This way, I don't need the `#coalesce` method at all and the entire thing,
+return the strings of movements themselves, but just the length of the shortest
+one.  This way, I don't need the `#coalesce` method at all.  The entire thing,
 with 25 `DirectionalKeypad` instances, runs in about **62ms**.
 
 ## Tests
