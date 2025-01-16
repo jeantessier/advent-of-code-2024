@@ -30,3 +30,8 @@ I even got it down to a one-liner:
 ```ruby
 puts File.new("input.txt").read.scan(/mul\((\d{1,3}),(\d{1,3})\)/).map { |n1, n2| n1.to_i * n2.to_i }.sum
 ```
+
+## JavaScript
+
+I tried to port this solution's `puzzle1.rb` to JavaScript.  For fun.  It was
+straightforward, since it was all about the regex.
