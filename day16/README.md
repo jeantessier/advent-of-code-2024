@@ -31,7 +31,7 @@ Each edge represents a turn.  The total cost of a path from `S` to `E` will be
 turn if we head North from `S`).  Because a turn is so costly, the path with the
 fewest edges should be the cheapest.
 
-I grew paths from 'S', until at least one reached 'E'.  I then pruned all the
+I grew paths from `S`, until at least one reached `E`.  I then pruned all the
 false leads.  There were still too many edges to really identify paths, so I
 repeated the process in the other direction, starting at `E` and ending at `S`,
 and computed the intersection of edges that were in both sets.  I was able to
@@ -49,12 +49,12 @@ I suspected that I was probably pruning too aggressively.  Between pruning
 from `S`, pruning from `E`, and taking the intersection, I was leaving out some
 alternate path that still had the lowest score.
 
-The Advent of Code site told me **466* was too low, and I tried **500** on a
+The Advent of Code site told me **466** was too low, and I tried **500** on a
 lark to find that was too high.
 
 I printed my result with **466** and found a small alternate path near `S`
 with **13** extra tiles.  Adding them gave me the correct answer.
 
-I tried various ways to be more lenient iin my pruning, but each time it sent
+I tried various ways to be more lenient in my pruning, but each time it sent
 the program into some infinite loop somewhere in the center.  I threw in the
 towel after another 5 hours of fruitless trial and error.
