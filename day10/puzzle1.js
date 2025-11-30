@@ -31,7 +31,8 @@ const hike = (map, coord) => {
         .flat()
 }
 
-fs.readFile('sample.txt', 'utf8', (err, data) => {
+// fs.readFile('sample.txt', 'utf8', (err, data) => {
+fs.readFile('input.txt', 'utf8', (err, data) => {
     if (err) {
         console.error(err)
         return
