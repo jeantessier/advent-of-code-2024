@@ -12,25 +12,25 @@ const valid = (map, coord) => 0 <= coord[0] && coord[0] < map.length && 0 <= coo
 
 const hike = (map, coord) => {
     if (map[coord[0]][coord[1]] == 9) {
-	return [ coord ]
+        return [ coord ]
     }
 
     return [
-	[ coord[0] - 1, coord[1]     ],
-	[ coord[0]    , coord[1] + 1 ],
-	[ coord[0] + 1, coord[1]     ],
-	[ coord[0]    , coord[1] - 1 ],
+        [ coord[0] - 1, coord[1]     ],
+        [ coord[0]    , coord[1] + 1 ],
+        [ coord[0] + 1, coord[1]     ],
+        [ coord[0]    , coord[1] - 1 ],
     ]
-	.filter(c => valid(map, c))
-	.filter(c => map[c[0]][c[1]] == map[coord[0]][coord[1]] + 1)
-	.map(c => hike(map, c))
-	.flat()
+        .filter(c => valid(map, c))
+        .filter(c => map[c[0]][c[1]] == map[coord[0]][coord[1]] + 1)
+        .map(c => hike(map, c))
+        .flat()
 }
 
 fs.readFile('sample.txt', 'utf8', (err, data) => {
     if (err) {
-	console.error(err)
-	return
+        console.error(err)
+        return
     }
 
     const lines = data.split('\n').filter(s => s !== '')
@@ -44,11 +44,11 @@ fs.readFile('sample.txt', 'utf8', (err, data) => {
     console.log()
 
     const trailheads =
-	  map.map((row, x) =>
-	      row.map((cell, y) =>
-		  cell ? null : [x, y]
-	      ).filter(coord => coord)
-	  ).flat()
+          map.map((row, x) =>
+              row.map((cell, y) =>
+                  cell ? null : [x, y]
+              ).filter(coord => coord)
+          ).flat()
     
     console.log('trailheads:')
     printTrailheads(map)
