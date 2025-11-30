@@ -3,8 +3,8 @@ import fs from 'node:fs'
 // fs.readFile('sample1.txt', 'utf8', (err, data) => {
 fs.readFile('input.txt', 'utf8', (err, data) => {
     if (err) {
-	console.error(err)
-	return
+        console.error(err)
+        return
     }
 
     const lines = data.split('\n').filter(s => s !== '')
