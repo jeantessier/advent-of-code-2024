@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from 'node:fs'
 
 // fs.readFile('sample1.txt', 'utf8', (err, data) => {
