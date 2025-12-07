@@ -1,6 +1,6 @@
 require './directional_keypad'
 
-RSpec.describe DirectionalKeypad do
+describe DirectionalKeypad do
   subject(:keypad) { described_class.new nil }
 
   context 'wanting to type "029A" on a numerical keypad.' do

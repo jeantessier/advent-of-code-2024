@@ -1,7 +1,7 @@
 require './coord'
 require './vector'
 
-RSpec.describe Vector do
+describe Vector do
   let(:origin) { Coord.new(0, 0) }
 
   context 'with size zero' do
